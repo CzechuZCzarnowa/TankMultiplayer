@@ -274,8 +274,9 @@ GameObject:
   m_Component:
   - component: {fileID: 158831755}
   - component: {fileID: 158831756}
+  - component: {fileID: 158831757}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,6 +315,18 @@ EdgeCollider2D:
   - {x: -15, y: 15}
   - {x: 15, y: 15}
   - {x: 15, y: 0}
+--- !u!114 &158831757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 158831754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3316c6e6dfb3a964f83f68d9edf2eaae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

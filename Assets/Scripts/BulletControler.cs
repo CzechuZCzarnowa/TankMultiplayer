@@ -7,13 +7,14 @@ public class BulletControler : NetworkBehaviour
     Rigidbody2D rigi;
     private float speed;
     [SerializeField] private float lifeTime = 20;
-    [SerializeField] private int damage = 20;
-    PlayerShooting ps;
+    private int damage;
+    Weapon ps;
     float age;
     void Start()
     {
-        ps = GetComponent<PlayerShooting>();
-        speed = ps.currentWeapon.speed;
+        ps = transform.parent.GetComponent<PlayerShooting>().currentWeapon;
+        speed = ps.speed;
+        damage = ps.Damage;
         rigi = GetComponent<Rigidbody2D>();
         rigi.velocity = transform.up * speed;
         Destroy(gameObject, 3);

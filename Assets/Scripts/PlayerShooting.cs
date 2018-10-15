@@ -37,9 +37,19 @@ public class PlayerShooting : NetworkBehaviour {
     public void CmdShootBullet()
     {
 
-            GameObject bullet_fired = Instantiate(currentWeapon.Bulletprefab, firePosition.position, firePosition.rotation);
+            GameObject bullet_fired = Instantiate(currentWeapon.Bulletprefab, firePosition.position, firePosition.rotation,transform);
             NetworkServer.SpawnWithClientAuthority(bullet_fired, this.gameObject);
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        PickUpWeapon pick = collision.GetComponent<PickUpWeapon>();
+        if(pick != null)
+        {
+            currentWeapon = pick.weapon;
+            Destroy(collision.gameObject);
+        }
     }
 
 }
