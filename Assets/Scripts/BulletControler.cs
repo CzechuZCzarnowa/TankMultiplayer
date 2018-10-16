@@ -40,7 +40,16 @@ public class BulletControler : NetworkBehaviour
             player.TakeDamage(damage);
             
         }
-       // NetworkServer.Destroy(gameObject);
+        if(colInfo.tag != "Ammo")
+        {
+        DeleteGameObject(gameObject);
+        }
+    }
+
+    [ServerCallback]
+    private void DeleteGameObject(GameObject obj)
+    {
+        NetworkServer.Destroy(obj);
     }
 
 }
