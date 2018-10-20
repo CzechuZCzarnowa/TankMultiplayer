@@ -10,14 +10,15 @@ public class PlayerShooting : NetworkBehaviour {
     public Transform firePosition;
     public Weapon currentWeapon;
     public GameObject canvas;
-
+    public Rigidbody2D bulletPrefab;
     private void Start()
     {
-        if(isLocalPlayer)
+        bulletPrefab = currentWeapon.Bulletprefab.GetComponent<Rigidbody2D>();
+
+        if (isLocalPlayer)
         {
 
             canvas.SetActive(true);
-          
 
         }
         else
@@ -34,16 +35,24 @@ public class PlayerShooting : NetworkBehaviour {
     [Command]
     public void CmdShootBullet()
     {
-
-        GameObject bullet_fired = Instantiate(currentWeapon.Bulletprefab, firePosition.position, firePosition.rotation, transform);
-
-        NetworkServer.SpawnWithClientAuthority(bullet_fired, this.gameObject);
-        Rpc_Client(bullet_fired);
+        BulletControler bullet = null;
+        bullet = bulletPrefab.GetComponent<BulletControler>();
+        
+        Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation,transform) as Rigidbody2D;
+        
+        if(rbody != null)
+        {
+           
+            rbody.velocity = currentWeapon.speed * firePosition.transform.up;
+            NetworkServer.Spawn(rbody.gameObject);
+        }
+            Rpc_Client(rbody.gameObject);
 
     }
     [ClientRpc]
     public void Rpc_Client(GameObject ob)
     {
+        Debug.Log(ob);
         ob.transform.SetParent(this.transform);
     }
     private void OnTriggerEnter2D(Collider2D collision)

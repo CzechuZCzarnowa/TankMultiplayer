@@ -431,6 +431,7 @@ MonoBehaviour:
   firePosition: {fileID: 4655645326988168}
   currentWeapon: {fileID: 11400000, guid: bd032ec0199e0784bb8e529ef8f4c395, type: 2}
   canvas: {fileID: 1310392962858962}
+  bulletPrefab: {fileID: 0}
 --- !u!114 &114083603486229450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -788,7 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 2
-  m_SendInterval: 0.045454547
+  m_SendInterval: 0.055555556
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
   m_SyncSpin: 0

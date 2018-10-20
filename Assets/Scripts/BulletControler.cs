@@ -2,31 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+
+[RequireComponent(typeof(Rigidbody2D))]
 public class BulletControler : NetworkBehaviour
 {
-    Rigidbody2D rigi;
-    private float speed;
-    [SerializeField] private float lifeTime = 20;
+    private Rigidbody2D rigi;
+    private BoxCollider2D boxCollider;
     private int damage;
-    Weapon ps;
-    float age;
+    private Weapon ps;
+
+    private float lifetime = 2f;
     void Start()
     {
         ps = transform.parent.GetComponent<PlayerShooting>().currentWeapon;
-        speed = ps.speed;
+        transform.localScale = new Vector3(1, 1, 1);
         damage = ps.Damage;
         rigi = GetComponent<Rigidbody2D>();
-        rigi.velocity = transform.up * speed;
-        Destroy(gameObject, 3);
+        boxCollider = GetComponent<BoxCollider2D>();
+        StartCoroutine("SelfDestruct"); 
+       
 
     }
-    [ServerCallback]
-    private void Update()
+
+
+    IEnumerator SelfDestruct()
     {
-        age += Time.deltaTime;
-        if(age>lifeTime)
+        yield return new WaitForSeconds(lifetime);
+        Destruct();
+    }
+
+    private void Destruct()
+    {
+        rigi.velocity = Vector2.zero;
+        boxCollider.enabled = false;
+        rigi.Sleep();
+        BulletDestroy();
+    }
+
+    private void BulletDestroy()
+    {
+        if(isServer)
         {
-            NetworkServer.Destroy(gameObject);
+            GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(gameObject);
         }
     }
     private void OnTriggerEnter2D(Collider2D colInfo)
@@ -42,14 +60,9 @@ public class BulletControler : NetworkBehaviour
         }
         if(colInfo.tag != "Ammo")
         {
-        DeleteGameObject(gameObject);
+            Destruct();
         }
     }
 
-    [ServerCallback]
-    private void DeleteGameObject(GameObject obj)
-    {
-        NetworkServer.Destroy(obj);
-    }
 
 }
