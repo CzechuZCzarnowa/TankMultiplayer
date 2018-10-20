@@ -35,8 +35,7 @@ public class PlayerShooting : NetworkBehaviour {
     [Command]
     public void CmdShootBullet()
     {
-        BulletControler bullet = null;
-        bullet = bulletPrefab.GetComponent<BulletControler>();
+ 
         
         Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation,transform) as Rigidbody2D;
         
@@ -51,10 +50,10 @@ public class PlayerShooting : NetworkBehaviour {
     }
     [ClientRpc]
     public void Rpc_Client(GameObject ob)
-    {
-        Debug.Log(ob);
+    {       
         ob.transform.SetParent(this.transform);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -62,6 +61,8 @@ public class PlayerShooting : NetworkBehaviour {
         if(pick != null)
         {
             currentWeapon = pick.weapon;
+            collision.GetComponent<CircleCollider2D>().enabled = false;
+            collision.GetComponent<MeshRenderer>().enabled = false;
             Destroy(collision.gameObject);
         }
     }

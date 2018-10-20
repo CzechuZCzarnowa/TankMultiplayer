@@ -49,6 +49,9 @@ public class Player : NetworkBehaviour {
         // instatiate deathEffect;
 
     }
+
+
+
     void BackToLobby()
     {
         FindObjectOfType<NetworkLobbyManager>().ServerReturnToLobby();
