@@ -1,16 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using TMPro;
 
 public class GameManager : NetworkBehaviour {
 
-    static GameManager instance;
+    private static GameManager instance;
+    private bool isGame = false;
+    [SyncVar]private float timer;
+    [SerializeField] private float randomTime = 15f;
+    [SerializeField] private float timeRound;
+
+    public GameObject barrier;
+    public TextMeshProUGUI timer_text;
     public GameObject[] newWeapon;
     public BonusColliderSpawn[] bonusSpawn;
-
-    [SerializeField] private float RandomTime = 15f;
-    private bool isGame = true;
     public static GameManager Instance
     {
         get
@@ -43,14 +47,20 @@ public class GameManager : NetworkBehaviour {
 
     private void Start()
     {
-        StartCoroutine("RandomBonus",RandomTime);
+        isGame = true;
+        timer = timeRound;
+       
+        StartCoroutine("RandomBonus",randomTime);
     }
-
-    IEnumerator RandomBonus(float time)
+    private void Update()
+    {
+        TimeUpdate();
+    }
+    private IEnumerator RandomBonus(float time)
     {
         while (isGame && isServer)
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(time);
             CmdRandomBonus();
         }
 
@@ -61,73 +71,66 @@ public class GameManager : NetworkBehaviour {
     {
         Vector3 spawn = new Vector3();
         BonusColliderSpawn bs = GetRandomSpawnVector();
+
         if( bs != null)
         {
             spawn = bs.gameObject.transform.position;
         }
         else
         {
-            Debug.Log("brak miejsc");
             return;
         }
 
-        //if (oldSpawn != null)
-        //{
-        //    oldSpawn.isOccupied = false;
-        //}
-
         int randomWeaponIndex = Random.Range(0, newWeapon.Length);
- 
-        GameObject go = Instantiate(newWeapon[randomWeaponIndex],
-                         spawn,
-                         Quaternion.identity);
+        GameObject go = Instantiate(newWeapon[randomWeaponIndex], spawn, Quaternion.identity);
         NetworkServer.Spawn(go);
-       
 
     }
 
-
-
-
-    BonusColliderSpawn  GetRandomSpawnVector()
+    private BonusColliderSpawn  GetRandomSpawnVector()
     {
         if(bonusSpawn != null)
         {
         
             if(bonusSpawn.Length >0)
             {
-                bool foundSpawner = false;
-
-                //w razie nieskończonej pętli
+         
                 float timeOut = Time.time + 2f;
                 for (int i = 0; i < bonusSpawn.Length; i++)
                 {
                     BonusColliderSpawn bonus = bonusSpawn[Random.Range(0, bonusSpawn.Length)].GetComponent<BonusColliderSpawn>();
 
-                    if (bonus.isOccupied == false)
-                    {
-                        //foundSpawner = true;
+                    if (!bonus.isOccupied)   
                         return bonus;
 
-                    }
-
                 }
-               // while(!foundSpawner)
-               // {        
-      
-                    
-                 //   if (Time.time > timeOut)
-                  //  {
-                  //      foundSpawner = true;
-                  //      return null;
-                   // }
-               // }
-                return null;
-                
+                return null;                
             }
         }
         return null;
     }
 
-   
+    private void TimeUpdate()
+    {
+        
+        timer -= Time.deltaTime;
+        if(timer<=0)
+        {
+            timer = timeRound;
+            barrierScale();
+        }
+        string minutes = ((int)timer / 60).ToString("00");
+        string seconds = (timer % 60).ToString("00");
+
+        timer_text.text = minutes + ":" + seconds;
+        
+    }
+
+    private void barrierScale()
+    {
+        Vector3 scale = barrier.transform.localScale;
+        scale.x /= 2;
+        scale.y /= 2;
+        barrier.transform.localScale = scale;
+    }
 }

@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 114625985933131044}
   - component: {fileID: 114662916352702352}
   m_Layer: 0
-  m_Name: dupa
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
