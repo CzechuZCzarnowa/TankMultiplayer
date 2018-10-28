@@ -11,58 +11,64 @@ public class PlayerShooting : NetworkBehaviour {
     public Weapon currentWeapon;
     public GameObject canvas;
     public Rigidbody2D bulletPrefab;
+   
+
     private void Start()
     {
         bulletPrefab = currentWeapon.Bulletprefab.GetComponent<Rigidbody2D>();
-
+        
         if (isLocalPlayer)
         {
-
-            canvas.SetActive(true);
-
+           canvas.SetActive(true);
         }
         else
         {
             return;
         }
         GetComponentInChildren<ShootButton>().Player = this;
-
     }
-
 
 
 
     [Command]
-    public void CmdShootBullet()
+    public void CmdShootBullet(NetworkInstanceId id)
     {
- 
         
-        Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation,transform) as Rigidbody2D;
-        
-        if(rbody != null)
+        Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation) as Rigidbody2D;
+
+        if (rbody != null)
         {
-           
+            //var t = ClientScene.FindLocalObject(id);
+            //Debug.Log(t);
+            //rbody.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
             rbody.velocity = currentWeapon.speed * firePosition.transform.up;
             NetworkServer.Spawn(rbody.gameObject);
+            RpcObject(id, rbody.gameObject);
+
+            if(isServer)
+            {
+            var t = ClientScene.FindLocalObject(id);
+            rbody.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
+
+            }
         }
-            Rpc_Client(rbody.gameObject);
 
     }
+
     [ClientRpc]
-    public void Rpc_Client(GameObject ob)
-    {       
-        ob.transform.SetParent(this.transform);
+    void RpcObject(NetworkInstanceId id,GameObject g)
+    {
+        var t = ClientScene.FindLocalObject(id);
+        g.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         PickUpWeapon pick = collision.GetComponent<PickUpWeapon>();
         if(pick != null)
         {
             currentWeapon = pick.weapon;
             collision.GetComponent<CircleCollider2D>().enabled = false;
-            collision.GetComponent<MeshRenderer>().enabled = false;
+            collision.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(collision.gameObject);
         }
     }

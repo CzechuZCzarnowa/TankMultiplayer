@@ -15,12 +15,12 @@ public class Player : NetworkBehaviour {
     
     [SyncVar(hook = "ChangeHpText") ] private int health= maxHealth ;
 
-
-
     public override void OnStartClient()
     {
         ChangeHpText(health);
+        gameObject.name = GetComponent<NetworkIdentity>().netId.ToString();
     }
+
     public void TakeDamage(int value)
     {
         if (!isServer || health <= 0)
@@ -37,10 +37,10 @@ public class Player : NetworkBehaviour {
 
 
     public void ChangeHpText(int health)
-    {
-        
+    {      
         HpUnitText.text = health.ToString();
     }
+
     [ClientRpc]
     public void RpcDied()
     {
@@ -49,8 +49,6 @@ public class Player : NetworkBehaviour {
         // instatiate deathEffect;
 
     }
-
-
 
     void BackToLobby()
     {

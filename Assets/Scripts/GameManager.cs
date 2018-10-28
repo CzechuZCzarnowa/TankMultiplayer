@@ -7,7 +7,7 @@ public class GameManager : NetworkBehaviour {
 
     static GameManager instance;
     public GameObject[] newWeapon;
-    public Transform[] bonusSpawn;
+    public BonusColliderSpawn[] bonusSpawn;
 
     [SerializeField] private float RandomTime = 15f;
     private bool isGame = true;
@@ -48,20 +48,86 @@ public class GameManager : NetworkBehaviour {
 
     IEnumerator RandomBonus(float time)
     {
-        yield return new WaitForSeconds(time);
-        CmdRandomBonus();
+        while (isGame && isServer)
+        {
+            yield return new WaitForSeconds(5f);
+            CmdRandomBonus();
+        }
+
     }
 
     [Command]
     private void CmdRandomBonus()
     {
+        Vector3 spawn = new Vector3();
+        BonusColliderSpawn bs = GetRandomSpawnVector();
+        if( bs != null)
+        {
+            spawn = bs.gameObject.transform.position;
+        }
+        else
+        {
+            Debug.Log("brak miejsc");
+            return;
+        }
+
+        //if (oldSpawn != null)
+        //{
+        //    oldSpawn.isOccupied = false;
+        //}
+
         int randomWeaponIndex = Random.Range(0, newWeapon.Length);
-        int randomSpawnIndex = Random.Range(0, newWeapon.Length);
+ 
         GameObject go = Instantiate(newWeapon[randomWeaponIndex],
-                         bonusSpawn[randomSpawnIndex].position,
-                         bonusSpawn[randomSpawnIndex].rotation);
+                         spawn,
+                         Quaternion.identity);
         NetworkServer.Spawn(go);
+       
 
     }
 
+
+
+
+    BonusColliderSpawn  GetRandomSpawnVector()
+    {
+        if(bonusSpawn != null)
+        {
+        
+            if(bonusSpawn.Length >0)
+            {
+                bool foundSpawner = false;
+
+                //w razie nieskończonej pętli
+                float timeOut = Time.time + 2f;
+                for (int i = 0; i < bonusSpawn.Length; i++)
+                {
+                    BonusColliderSpawn bonus = bonusSpawn[Random.Range(0, bonusSpawn.Length)].GetComponent<BonusColliderSpawn>();
+
+                    if (bonus.isOccupied == false)
+                    {
+                        //foundSpawner = true;
+                        return bonus;
+
+                    }
+
+                }
+               // while(!foundSpawner)
+               // {        
+      
+                    
+                 //   if (Time.time > timeOut)
+                  //  {
+                  //      foundSpawner = true;
+                  //      return null;
+                   // }
+               // }
+                return null;
+                
+            }
+        }
+        return null;
+    }
+
+   
 }

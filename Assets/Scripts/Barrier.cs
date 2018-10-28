@@ -10,13 +10,13 @@ public class Barrier : MonoBehaviour {
     // Update is called once per frame
 
     
-    private void OnCollisionStay2D(Collision2D coll)
+    private void OnCollisionEnter2D(Collision2D coll)
     {
         player = coll.gameObject.GetComponent<Player>();
-        //Player player = coll.gameobject.GetComponent<Player>();
+      
         if (player != null)
         {
-            Invoke("HitPlayer", 0.5f);
+            player.TakeDamage(damage);
 
         }
     }
@@ -25,15 +25,4 @@ public class Barrier : MonoBehaviour {
         player.TakeDamage(damage);
     }
 
-    //private void OnCollisionEnter2D(Collision2D coll)
-    //{
-
-    //    Player player = coll.gameObject.GetComponent<Player>();
-    //    //Player player = coll.gameobject.GetComponent<Player>();
-    //    if (player != null)
-    //    {
-    //        player.TakeDamage(damage);
-
-    //    }
-    //}
 }

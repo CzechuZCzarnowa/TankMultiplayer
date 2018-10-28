@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Networking;
 using UnityEngine.UI;
-public class ShootButton : MonoBehaviour {
+public class ShootButton : NetworkBehaviour {
 
     public PlayerShooting Player;
-    public Transform playerT;
+
     // Use this for initialization
 
     public void TestSpawn()
     {
-        Player.GetComponent<PlayerShooting>().CmdShootBullet();
+       
+        var playerNetIdentity = Player.gameObject.GetComponent<NetworkIdentity>();
+        Player.GetComponent<PlayerShooting>().CmdShootBullet(playerNetIdentity.netId);
+
 
     }
 }

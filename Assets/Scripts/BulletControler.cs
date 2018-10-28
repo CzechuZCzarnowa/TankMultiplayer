@@ -9,19 +9,19 @@ public class BulletControler : NetworkBehaviour
     private Rigidbody2D rigi;
     private BoxCollider2D boxCollider;
     private int damage;
-    private Weapon ps;
-
+    public Weapon ps;
+    public PlayerShooting playerShoot;
     private float lifetime = 2f;
+    public string nameP;
     void Start()
     {
-        ps = transform.parent.GetComponent<PlayerShooting>().currentWeapon;
-        transform.localScale = new Vector3(1, 1, 1);
+        
+        ps = playerShoot.currentWeapon;
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         damage = ps.Damage;
         rigi = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         StartCoroutine("SelfDestruct"); 
-       
-
     }
 
 
@@ -56,12 +56,10 @@ public class BulletControler : NetworkBehaviour
         if (player != null)
         {
             player.TakeDamage(damage);
-            
-        }
-        if(colInfo.tag != "Ammo")
-        {
             Destruct();
+
         }
+    
     }
 
 
