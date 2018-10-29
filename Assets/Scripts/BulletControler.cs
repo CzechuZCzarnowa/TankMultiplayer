@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,16 +8,16 @@ public class BulletControler : NetworkBehaviour
     private Rigidbody2D rigi;
     private BoxCollider2D boxCollider;
     private int damage;
-    public Weapon ps;
-    public PlayerShooting playerShoot;
     private float lifetime = 2f;
     public string nameP;
+    public Weapon currentWeapon;
+    public PlayerShooting playerShoot;
+
     void Start()
-    {
-        
-        ps = playerShoot.currentWeapon;
+    {      
+        currentWeapon = playerShoot.currentWeapon;
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        damage = ps.Damage;
+        damage = currentWeapon.Damage;
         rigi = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         StartCoroutine("SelfDestruct"); 
@@ -47,6 +46,7 @@ public class BulletControler : NetworkBehaviour
             Destroy(gameObject);
         }
     }
+
     private void OnTriggerEnter2D(Collider2D colInfo)
     {
         if (!isServer)
@@ -57,7 +57,6 @@ public class BulletControler : NetworkBehaviour
         {
             player.TakeDamage(damage);
             Destruct();
-
         }
     
     }

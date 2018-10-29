@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.Networking;
-using System;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerShooting : NetworkBehaviour {
 
     public Transform firePosition;
@@ -12,11 +9,9 @@ public class PlayerShooting : NetworkBehaviour {
     public GameObject canvas;
     public Rigidbody2D bulletPrefab;
    
-
     private void Start()
     {
-        bulletPrefab = currentWeapon.Bulletprefab.GetComponent<Rigidbody2D>();
-        
+        bulletPrefab = currentWeapon.Bulletprefab.GetComponent<Rigidbody2D>();       
         if (isLocalPlayer)
         {
            canvas.SetActive(true);
@@ -28,8 +23,6 @@ public class PlayerShooting : NetworkBehaviour {
         GetComponentInChildren<ShootButton>().Player = this;
     }
 
-
-
     [Command]
     public void CmdShootBullet(NetworkInstanceId id)
     {
@@ -38,9 +31,6 @@ public class PlayerShooting : NetworkBehaviour {
 
         if (rbody != null)
         {
-            //var t = ClientScene.FindLocalObject(id);
-            //Debug.Log(t);
-            //rbody.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
             rbody.velocity = currentWeapon.speed * firePosition.transform.up;
             NetworkServer.Spawn(rbody.gameObject);
             RpcObject(id, rbody.gameObject);
@@ -61,6 +51,7 @@ public class PlayerShooting : NetworkBehaviour {
         var t = ClientScene.FindLocalObject(id);
         g.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PickUpWeapon pick = collision.GetComponent<PickUpWeapon>();

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 public class Player : NetworkBehaviour {
@@ -8,8 +6,6 @@ public class Player : NetworkBehaviour {
 
     public const int maxHealth = 100;
     public GameObject deathEffect;
-
-
     public TextMeshProUGUI HpUnitText;
 
     

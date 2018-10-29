@@ -117,7 +117,8 @@ public class GameManager : NetworkBehaviour {
         if(timer<=0)
         {
             timer = timeRound;
-            barrierScale();
+             StartCoroutine("localLerp");
+    
         }
         string minutes = ((int)timer / 60).ToString("00");
         string seconds = (timer % 60).ToString("00");
@@ -126,11 +127,19 @@ public class GameManager : NetworkBehaviour {
         
     }
 
-    private void barrierScale()
+    private IEnumerator localLerp()
     {
+
         Vector3 scale = barrier.transform.localScale;
-        scale.x /= 2;
-        scale.y /= 2;
-        barrier.transform.localScale = scale;
+        scale.x -= 0.2f;
+        scale.y -= 0.2f;
+        float time = 2.0f;
+        while(time>0.0f)
+        {
+            time -= Time.deltaTime;
+            barrier.transform.localScale = Vector3.Lerp(barrier.transform.localScale, scale,time/2f);
+            yield return null;
+        }
     }
+
 }

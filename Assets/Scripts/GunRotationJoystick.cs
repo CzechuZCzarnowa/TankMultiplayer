@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+
 public class GunRotationJoystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
 
@@ -19,6 +18,7 @@ public class GunRotationJoystick : MonoBehaviour, IDragHandler, IPointerUpHandle
     public virtual void OnDrag(PointerEventData eventData)
     {
         Vector2 pos = Vector2.zero;
+
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle
             (bgImg.rectTransform,
                 eventData.position,
@@ -46,9 +46,9 @@ public class GunRotationJoystick : MonoBehaviour, IDragHandler, IPointerUpHandle
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        //inputVector = Vector3.zero;
         joystickImg.rectTransform.anchoredPosition = Vector3.zero;
     }
+
     public float Horizontal()
     {
         if (inputVector.x != 0)

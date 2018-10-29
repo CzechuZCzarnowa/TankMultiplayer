@@ -1,25 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(GunRotationJoystick))]
+[RequireComponent(typeof(VirtualJoystick))]
 public class CharacterControler :NetworkBehaviour
 {
     
-
-   
     private GunRotationJoystick Rjoystick;
     private VirtualJoystick Mjoystick;
 
-    [SerializeField]
-    private float moveSpeed=2f;
+
     private float torqueForce = -200f;
     private float driftFactorSticky = 0.9f;
     private float driftFactorSlippy = 1f;
     private float maxStickyVelocity = 2.5f;
     private Rigidbody2D rigi;
     private Transform mainCamera;
-   // private Animator anim;
     private Vector3 moveVector;
     private float CameraOffset = -10f;
+    [SerializeField] private float moveSpeed=2f;
 
 
 
@@ -36,7 +36,6 @@ public class CharacterControler :NetworkBehaviour
         rigi = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main.transform;
         MoveCamera();
-      //  anim = GetComponent<Animator>();
     }
     
     private void FixedUpdate()
@@ -80,16 +79,14 @@ public class CharacterControler :NetworkBehaviour
 
         return dir;
     }
-
-    Vector2 ForwardVelocity()
+    private Vector2 ForwardVelocity()
     {
         return transform.up * Vector2.Dot(rigi.velocity, transform.up);
     }
-    Vector2 RightVelocity()
+    private Vector2 RightVelocity()
     {
         return transform.right * Vector2.Dot(rigi.velocity, transform.right);
     }
-
     private void RJoystickInput()
     {
         Vector3 dir = Vector3.zero;
@@ -107,7 +104,7 @@ public class CharacterControler :NetworkBehaviour
 
     }
 
-    void MoveCamera()
+    private void MoveCamera()
     {
         mainCamera.position = new Vector3(transform.position.x, transform.position.y, CameraOffset);
     }
