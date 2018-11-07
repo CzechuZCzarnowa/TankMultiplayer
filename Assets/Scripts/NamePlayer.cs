@@ -9,7 +9,7 @@ public class NamePlayer : NetworkBehaviour {
 
     void Start ()
     {
-    namePlayer.text = m_playerName;
+     namePlayer.text = m_playerName;
         
     }
 

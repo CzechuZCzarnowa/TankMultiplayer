@@ -6,7 +6,7 @@ public class Player : NetworkBehaviour {
 
     public const int maxHealth = 100;
     public GameObject deathEffect;
-    public TextMeshProUGUI HpUnitText;
+   public TextMeshProUGUI HpUnitText;
 
     
     [SyncVar(hook = "ChangeHpText") ] private int health= maxHealth ;
@@ -26,8 +26,9 @@ public class Player : NetworkBehaviour {
 
         if (health <= 0)
         {
+           
             RpcDied();
-            Invoke("BackToLobby",3f);
+            
         }
     }
 
@@ -42,12 +43,32 @@ public class Player : NetworkBehaviour {
     {
         if (!isServer)
             return;
-        // instatiate deathEffect;
+
+    
 
     }
 
     void BackToLobby()
     {
         FindObjectOfType<NetworkLobbyManager>().ServerReturnToLobby();
+    }
+    void DeActivateScripts()
+    {
+        GetComponent<CharacterControler>().enabled = false;
+        GetComponent<PlayerShooting>().canvas.SetActive(false);
+        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        
+        foreach(SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+        {
+            r.enabled = false;
+        }
+
+        foreach (Canvas c in GetComponentsInChildren<Canvas>())
+        {
+            c.enabled = false;
+        }
+
+
     }
 }

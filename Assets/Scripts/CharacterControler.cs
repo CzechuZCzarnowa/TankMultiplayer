@@ -17,6 +17,7 @@ public class CharacterControler :NetworkBehaviour
     private float maxStickyVelocity = 2.5f;
     private Rigidbody2D rigi;
     private Transform mainCamera;
+    private Transform miniCamera;
     private Vector3 moveVector;
     private float CameraOffset = -10f;
     [SerializeField] private float moveSpeed=2f;
@@ -35,6 +36,7 @@ public class CharacterControler :NetworkBehaviour
         Rjoystick = GameObject.Find("RotationJoystick").GetComponent<GunRotationJoystick>();
         rigi = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main.transform;
+        miniCamera = GameObject.Find("MiniMapCamera").GetComponent<Transform>();
         MoveCamera();
     }
     
@@ -107,6 +109,8 @@ public class CharacterControler :NetworkBehaviour
     private void MoveCamera()
     {
         mainCamera.position = new Vector3(transform.position.x, transform.position.y, CameraOffset);
+        miniCamera.position = new Vector3(transform.position.x, transform.position.y, CameraOffset);
+        miniCamera.rotation = Quaternion.Euler(0, 0, 0);
     }
 
 

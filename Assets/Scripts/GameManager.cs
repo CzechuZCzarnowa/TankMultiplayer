@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using TMPro;
 
+
 public class GameManager : NetworkBehaviour {
 
     private static GameManager instance;
@@ -10,11 +11,13 @@ public class GameManager : NetworkBehaviour {
     [SyncVar]private float timer;
     [SerializeField] private float randomTime = 15f;
     [SerializeField] private float timeRound;
+    [SerializeField] private TextMeshProUGUI timer_text;
 
+    
     public GameObject barrier;
-    public TextMeshProUGUI timer_text;
     public GameObject[] newWeapon;
     public BonusColliderSpawn[] bonusSpawn;
+
     public static GameManager Instance
     {
         get
@@ -52,10 +55,15 @@ public class GameManager : NetworkBehaviour {
        
         StartCoroutine("RandomBonus",randomTime);
     }
+
     private void Update()
     {
         TimeUpdate();
+ 
+        
+
     }
+
     private IEnumerator RandomBonus(float time)
     {
         while (isGame && isServer)
@@ -117,8 +125,9 @@ public class GameManager : NetworkBehaviour {
         if(timer<=0)
         {
             timer = timeRound;
-             StartCoroutine("localLerp");
-    
+            StartCoroutine(LocalLerp());
+
+
         }
         string minutes = ((int)timer / 60).ToString("00");
         string seconds = (timer % 60).ToString("00");
@@ -127,19 +136,22 @@ public class GameManager : NetworkBehaviour {
         
     }
 
-    private IEnumerator localLerp()
-    {
 
-        Vector3 scale = barrier.transform.localScale;
-        scale.x -= 0.2f;
-        scale.y -= 0.2f;
-        float time = 2.0f;
-        while(time>0.0f)
+    private IEnumerator LocalLerp()
+    {
+        float progress = 0;
+        Vector3 actualTransform = barrier.transform.localScale;
+        Vector3 newLocal = new Vector3(actualTransform.x - 0.3f, actualTransform.y - 0.3f, actualTransform.z);
+        
+        while (progress <= 1)
         {
-            time -= Time.deltaTime;
-            barrier.transform.localScale = Vector3.Lerp(barrier.transform.localScale, scale,time/2f);
+            progress += Time.deltaTime * Time.timeScale;
+            barrier.transform.localScale = Vector3.Lerp( actualTransform,newLocal,progress);
             yield return null;
+
         }
+        barrier.transform.localScale = newLocal;
+
     }
 
 }
