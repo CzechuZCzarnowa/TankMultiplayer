@@ -33,7 +33,7 @@ public class PlayerSpawnCollider : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
 
-            isOccupied = false;
+            isOccupied = true;
         }
 
     }

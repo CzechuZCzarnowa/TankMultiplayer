@@ -15,23 +15,23 @@ public class CharacterControler :NetworkBehaviour
     private float driftFactorSticky = 0.9f;
     private float driftFactorSlippy = 1f;
     private float maxStickyVelocity = 2.5f;
-    private Rigidbody2D rigi;
+    public Rigidbody2D rigi;
     private Transform mainCamera;
     private Transform miniCamera;
     private Vector3 moveVector;
     private float CameraOffset = -10f;
+    private PlayerHealth playerHealth;
     [SerializeField] private float moveSpeed=2f;
-
 
 
     private void Start()
     {
-        if(!isLocalPlayer)
+        if (!isLocalPlayer)
         {
             Destroy(this);
             return;
         }
-  
+        playerHealth = GetComponent<PlayerHealth>();
         Mjoystick = GameObject.Find("MoveJoystick").GetComponent<VirtualJoystick>();
         Rjoystick = GameObject.Find("RotationJoystick").GetComponent<GunRotationJoystick>();
         rigi = GetComponent<Rigidbody2D>();
@@ -39,9 +39,13 @@ public class CharacterControler :NetworkBehaviour
         miniCamera = GameObject.Find("MiniMapCamera").GetComponent<Transform>();
         MoveCamera();
     }
-    
+
     private void FixedUpdate()
     {
+        if (playerHealth.isDead)
+        {
+            return;
+        }
         moveVector = MJoystickInput();
         MoveCharacter();
         RJoystickInput();
@@ -112,6 +116,7 @@ public class CharacterControler :NetworkBehaviour
         miniCamera.position = new Vector3(transform.position.x, transform.position.y, CameraOffset);
         miniCamera.rotation = Quaternion.Euler(0, 0, 0);
     }
+
 
 
 }

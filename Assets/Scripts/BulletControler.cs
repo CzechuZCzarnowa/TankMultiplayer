@@ -52,10 +52,10 @@ public class BulletControler : NetworkBehaviour
         if (!isServer)
             return;
 
-        Player player = colInfo.GetComponent<Player>();
-        if (player != null)
+        PlayerHealth playerHealth = colInfo.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            player.TakeDamage(damage);
+            playerHealth.TakeDamage(damage);
             Destruct();
         }
     
