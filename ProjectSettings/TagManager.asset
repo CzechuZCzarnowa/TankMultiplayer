@@ -6,8 +6,9 @@ TagManager:
   tags:
   - Button
   - Ammo
-  - Bonus
   - SpawnPoint
+  - BonusHealth
+  - BonusSpeed
   layers:
   - Default
   - TransparentFX

@@ -52,16 +52,6 @@ public class PlayerShooting : NetworkBehaviour {
         g.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        PickUpWeapon pick = collision.GetComponent<PickUpWeapon>();
-        if(pick != null)
-        {
-            currentWeapon = pick.weapon;
-            collision.GetComponent<CircleCollider2D>().enabled = false;
-            collision.GetComponent<SpriteRenderer>().enabled = false;
-            Destroy(collision.gameObject);
-        }
-    }
+   
 
 }

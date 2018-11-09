@@ -1665,7 +1665,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1269152907}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.047574516, y: 0.17840935, z: 0}
+  m_LocalPosition: {x: 0.047574513, y: 0.17840935, z: 0}
   m_LocalScale: {x: 0.5681818, y: 0.5, z: 1}
   m_Children:
   - {fileID: 721563245}
@@ -2184,12 +2184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dbf9db8f09cfe42a5ad6e385168cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomTime: 15
-  timeRound: 5
+  spawnBonusTime: 2
+  timeRound: 119
   timer_text: {fileID: 986824285}
   barrier: {fileID: 1366823732}
-  newWeapon:
+  bonus:
   - {fileID: 1032826535305046, guid: a704c6d980d55a14dad0eb1b5b67d4d4, type: 2}
+  - {fileID: 1032826535305046, guid: a282268722e7a624197b61e7808b345c, type: 2}
   bonusSpawn:
   - {fileID: 721563246}
   - {fileID: 870374203}

@@ -9,13 +9,12 @@ public class GameManager : NetworkBehaviour {
     private static GameManager instance;
     private bool isGame = false;
     [SyncVar]private float timer;
-    [SerializeField] private float randomTime = 15f;
+    [SerializeField] private float spawnBonusTime = 3f;
     [SerializeField] private float timeRound;
     [SerializeField] private TextMeshProUGUI timer_text;
-
     
     public GameObject barrier;
-    public GameObject[] newWeapon;
+    public GameObject[] bonus;
     public BonusColliderSpawn[] bonusSpawn;
 
     public static GameManager Instance
@@ -35,7 +34,6 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
-
     private void Awake()
     {
         if(instance == null)
@@ -53,7 +51,7 @@ public class GameManager : NetworkBehaviour {
         isGame = true;
         timer = timeRound;
        
-        StartCoroutine("RandomBonus",randomTime);
+        StartCoroutine("RandomBonus",spawnBonusTime);
     }
 
     private void Update()
@@ -77,27 +75,30 @@ public class GameManager : NetworkBehaviour {
     [Command]
     private void CmdRandomBonus()
     {
+        
         Vector3 spawn = new Vector3();
         BonusColliderSpawn bs = GetRandomSpawnVector();
 
         if( bs != null)
         {
             spawn = bs.gameObject.transform.position;
+            
         }
         else
         {
+           
             return;
         }
 
-        int randomWeaponIndex = Random.Range(0, newWeapon.Length);
-        GameObject go = Instantiate(newWeapon[randomWeaponIndex], spawn, Quaternion.identity);
+        int randomBonusIndex = Random.Range(0, bonus.Length);
+        GameObject go = Instantiate(bonus[randomBonusIndex], spawn, Quaternion.identity);
         NetworkServer.Spawn(go);
-
     }
 
     private BonusColliderSpawn  GetRandomSpawnVector()
     {
-        if(bonusSpawn != null)
+        
+        if (bonusSpawn != null)
         {
         
             if(bonusSpawn.Length >0)
@@ -110,11 +111,12 @@ public class GameManager : NetworkBehaviour {
 
                     if (!bonus.isOccupied)   
                         return bonus;
-
+                   
                 }
                 return null;                
             }
         }
+ 
         return null;
     }
 
@@ -141,6 +143,7 @@ public class GameManager : NetworkBehaviour {
         GameObject SpawnGO = GameObject.Find("Spawn");
         SpawnGO.transform.localScale = scale;
     }
+
     private IEnumerator LocalLerp()
     {
         float progress = 0;

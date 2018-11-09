@@ -8,61 +8,27 @@ public class Player : NetworkBehaviour {
 
 
     public GameObject deathEffect;
-
     NetworkStartPosition[] spawnPoints;
     PlayerHealth playerHealth;
     Vector3 orginalPosition;
     CharacterControler playerControler;
-    GameObject[] t;
+
 
     private void Start()
     {
         playerControler = GetComponent<CharacterControler>();
         playerHealth = GetComponent<PlayerHealth>();
     }
-    public override void OnStartClient()
-    {
-       
-        
-    }
 
     public override void OnStartLocalPlayer()
     {
-        //gameObject.name = GetComponent<NetworkIdentity>().netId.ToString();
         
-        spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
-        
-       
+        spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();             
         orginalPosition = transform.position;
-    }
-
-
-
-
-
-
-
-
-
-    void DeActivateScripts()
-    {
-        GetComponent<CharacterControler>().enabled = false;
-        GetComponent<PlayerShooting>().canvas.SetActive(false);
-        GetComponent<BoxCollider2D>().enabled = false;
-        GetComponent<SpriteRenderer>().enabled = false;
-        
-        foreach(SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-        {
-            r.enabled = false;
-        }
-
-        foreach (Canvas c in GetComponentsInChildren<Canvas>())
-        {
-            c.enabled = false;
-        }
-
 
     }
+
+
     public void Die()
     {
         StartCoroutine("RespawnRoutine");

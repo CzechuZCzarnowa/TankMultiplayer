@@ -9,7 +9,7 @@ public class BonusColliderSpawn : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
     
-            if(collision.gameObject.tag == "Bonus")
+            if(collision.gameObject.tag == "BonusHealth")
         {
 
             isOccupied = true;
@@ -21,7 +21,7 @@ public class BonusColliderSpawn : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
 
-        if (collision.gameObject.tag == "Bonus")
+        if (collision.gameObject.tag == "BonusHealth")
         {
 
             isOccupied = false;

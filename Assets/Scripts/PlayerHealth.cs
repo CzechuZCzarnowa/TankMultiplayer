@@ -22,7 +22,11 @@ public class PlayerHealth : NetworkBehaviour {
         ChangeHpText(health);
     }
 
+    public void BonusHp(int amount)
+    {
+        health += amount;
 
+    }
     public void TakeDamage(int value)
     {
         if (!isServer || health <= 0)
@@ -78,7 +82,9 @@ public class PlayerHealth : NetworkBehaviour {
         }
     }
 
-    public void Reset()
+
+
+        public void Reset()
     {
         health = maxHealth;
         SetState(true);
