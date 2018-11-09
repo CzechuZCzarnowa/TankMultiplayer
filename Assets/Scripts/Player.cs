@@ -12,20 +12,27 @@ public class Player : NetworkBehaviour {
     NetworkStartPosition[] spawnPoints;
     PlayerHealth playerHealth;
     Vector3 orginalPosition;
-
+    CharacterControler playerControler;
+    GameObject[] t;
 
     private void Start()
     {
+        playerControler = GetComponent<CharacterControler>();
         playerHealth = GetComponent<PlayerHealth>();
     }
     public override void OnStartClient()
     {
        
-        gameObject.name = GetComponent<NetworkIdentity>().netId.ToString();
+        
     }
+
     public override void OnStartLocalPlayer()
     {
+        //gameObject.name = GetComponent<NetworkIdentity>().netId.ToString();
+        
         spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
+        
+       
         orginalPosition = transform.position;
     }
 
@@ -70,7 +77,7 @@ public class Player : NetworkBehaviour {
         {
             oldSpawn.isOccupied = false;
         }
-        GetComponent<CharacterControler>().rigi.velocity = Vector3.zero;
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         yield return new WaitForSeconds(3f);
         playerHealth.Reset();
     }

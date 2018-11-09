@@ -136,7 +136,11 @@ public class GameManager : NetworkBehaviour {
         
     }
 
-
+    private void SpawnPlayerLocalScale(Vector3 scale)
+    {
+        GameObject SpawnGO = GameObject.Find("Spawn");
+        SpawnGO.transform.localScale = scale;
+    }
     private IEnumerator LocalLerp()
     {
         float progress = 0;
@@ -151,6 +155,7 @@ public class GameManager : NetworkBehaviour {
 
         }
         barrier.transform.localScale = newLocal;
+        SpawnPlayerLocalScale(new Vector3(newLocal.x - 0.76f, newLocal.y - 1, newLocal.z));
 
     }
 
