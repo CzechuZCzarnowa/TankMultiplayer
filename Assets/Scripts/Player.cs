@@ -12,23 +12,32 @@ public class Player : NetworkBehaviour {
     PlayerHealth playerHealth;
     Vector3 orginalPosition;
     CharacterControler playerControler;
-
+    
 
     private void Start()
     {
         playerControler = GetComponent<CharacterControler>();
         playerHealth = GetComponent<PlayerHealth>();
+        orginalPosition = transform.position;
+        if(isServer)
+        {
+            spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
+             RpcSet();
+        }
     }
 
     public override void OnStartLocalPlayer()
     {
-        
-        spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();             
-        orginalPosition = transform.position;
-
+         spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
     }
 
 
+    [ClientRpc]
+    void RpcSet()
+    {
+        spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
+
+    }
     public void Die()
     {
         StartCoroutine("RespawnRoutine");

@@ -5,13 +5,14 @@ using UnityEngine.Networking;
 public class PlayerShooting : NetworkBehaviour {
 
     public Transform firePosition;
-    public Weapon currentWeapon;
+    public Weapon[] currentWeapon;
     public GameObject canvas;
     public Rigidbody2D bulletPrefab;
-   
+    
+   [SyncVar] private int currentWeaponIndex = 0;
     private void Start()
     {
-        bulletPrefab = currentWeapon.Bulletprefab.GetComponent<Rigidbody2D>();       
+        bulletPrefab = currentWeapon[currentWeaponIndex].Bulletprefab.GetComponent<Rigidbody2D>();       
         if (isLocalPlayer)
         {
            canvas.SetActive(true);
@@ -31,7 +32,7 @@ public class PlayerShooting : NetworkBehaviour {
 
         if (rbody != null)
         {
-            rbody.velocity = currentWeapon.speed * firePosition.transform.up;
+            rbody.velocity = currentWeapon[currentWeaponIndex].speed * firePosition.transform.up;
             NetworkServer.Spawn(rbody.gameObject);
             RpcObject(id, rbody.gameObject);
 
@@ -52,6 +53,19 @@ public class PlayerShooting : NetworkBehaviour {
         g.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
     }
 
-   
+    public void IncrementWeaponIndex()
+    {
+        currentWeaponIndex++;
+        if (currentWeaponIndex == currentWeapon.Length)
+        {
+            currentWeaponIndex = currentWeapon.Length - 1;
+        }
+        bulletPrefab = currentWeapon[currentWeaponIndex].Bulletprefab.GetComponent<Rigidbody2D>();
 
+    }
+    public int ActualWeapon()
+    {
+        return currentWeaponIndex;
+    }
+    
 }

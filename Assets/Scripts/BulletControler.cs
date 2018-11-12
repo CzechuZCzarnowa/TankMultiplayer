@@ -12,10 +12,10 @@ public class BulletControler : NetworkBehaviour
     public string nameP;
     public Weapon currentWeapon;
     public PlayerShooting playerShoot;
-
+    
     void Start()
     {      
-        currentWeapon = playerShoot.currentWeapon;
+        currentWeapon = playerShoot.currentWeapon[playerShoot.ActualWeapon()];
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         damage = currentWeapon.Damage;
         rigi = GetComponent<Rigidbody2D>();
@@ -55,7 +55,7 @@ public class BulletControler : NetworkBehaviour
         PlayerHealth playerHealth = colInfo.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
-            playerHealth.TakeDamage(damage);
+            playerHealth.TakeDamage(damage, playerShoot);
             Destruct();
         }
     

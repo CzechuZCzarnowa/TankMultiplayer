@@ -10,9 +10,8 @@ public class GameManager : NetworkBehaviour {
     private bool isGame = false;
     [SyncVar]private float timer;
     [SerializeField] private float spawnBonusTime = 3f;
-    [SerializeField] private float timeRound;
-    [SerializeField] private TextMeshProUGUI timer_text;
-    
+    [SerializeField] private float timeRound = 119;
+    public TextMeshProUGUI timer_text;
     public GameObject barrier;
     public GameObject[] bonus;
     public BonusColliderSpawn[] bonusSpawn;
@@ -50,7 +49,6 @@ public class GameManager : NetworkBehaviour {
     {
         isGame = true;
         timer = timeRound;
-       
         StartCoroutine("RandomBonus",spawnBonusTime);
     }
 

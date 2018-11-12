@@ -182,7 +182,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1796507216948570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.608032, y: -1.6576536, z: 0}
+  m_LocalPosition: {x: -2.1011257, y: -3.1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4867849776471396}
@@ -429,7 +429,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firePosition: {fileID: 4655645326988168}
-  currentWeapon: {fileID: 11400000, guid: bd032ec0199e0784bb8e529ef8f4c395, type: 2}
+  currentWeapon:
+  - {fileID: 11400000, guid: 21192b850f46a8e469c0080b1c1f8a79, type: 2}
+  - {fileID: 11400000, guid: bd032ec0199e0784bb8e529ef8f4c395, type: 2}
   canvas: {fileID: 1310392962858962}
   bulletPrefab: {fileID: 0}
 --- !u!114 &114083603486229450
@@ -810,6 +812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HpUnitText: {fileID: 114074690835093556}
+  lastAttacker: {fileID: 0}
   isDead: 0
 --- !u!114 &114995346464901614
 MonoBehaviour:
@@ -978,7 +981,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!223 &223999528300545768
 Canvas:
@@ -998,7 +1001,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!224 &224050400763947384
 RectTransform:

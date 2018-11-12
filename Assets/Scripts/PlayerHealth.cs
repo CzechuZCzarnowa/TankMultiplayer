@@ -8,7 +8,9 @@ public class PlayerHealth : NetworkBehaviour {
     public const int maxHealth = 100;
     [SyncVar(hook = "ChangeHpText")] private int health = maxHealth;
     public TextMeshProUGUI HpUnitText;
-    
+    public PlayerShooting lastAttacker = null;
+
+
     [SyncVar]
     public bool isDead = false;
     private void Start()
@@ -27,29 +29,33 @@ public class PlayerHealth : NetworkBehaviour {
         health += amount;
 
     }
-    public void TakeDamage(int value)
+    public void TakeDamage(int value, PlayerShooting ps = null)
     {
-        if (!isServer || health <= 0)
+        if (!isServer)
             return;
 
+
+        if (ps != null && ps!=this.GetComponent<PlayerShooting>())
+        {
+            
+            lastAttacker = ps;
+        }
         health -= value;
         ChangeHpText(health);
         if (health <= 0 && !isDead)
         {
-            
+            if(lastAttacker != null)
+            {
+                
+                lastAttacker.IncrementWeaponIndex();
+                lastAttacker = null;
+            }
             isDead = true;
             RpcDied();
+            
+        }
+    }
 
-        }
-    }
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(1))
-        {
-            health = 0;
-            RpcDied();
-        }
-    }
     public void ChangeHpText(int health)
     {
         HpUnitText.text = health.ToString();

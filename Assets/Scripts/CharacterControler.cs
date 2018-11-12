@@ -85,14 +85,6 @@ public class CharacterControler :NetworkBehaviour
 
         return dir;
     }
-    private Vector2 ForwardVelocity()
-    {
-        return transform.up * Vector2.Dot(rigi.velocity, transform.up);
-    }
-    private Vector2 RightVelocity()
-    {
-        return transform.right * Vector2.Dot(rigi.velocity, transform.right);
-    }
     private void RJoystickInput()
     {
         Vector3 dir = Vector3.zero;
@@ -109,6 +101,14 @@ public class CharacterControler :NetworkBehaviour
         
 
     }
+    private Vector2 ForwardVelocity()
+    {
+        return transform.up * Vector2.Dot(rigi.velocity, transform.up);
+    }
+    private Vector2 RightVelocity()
+    {
+        return transform.right * Vector2.Dot(rigi.velocity, transform.right);
+    }
 
     private void MoveCamera()
     {
@@ -117,6 +117,10 @@ public class CharacterControler :NetworkBehaviour
         miniCamera.rotation = Quaternion.Euler(0, 0, 0);
     }
 
+    public void BonusSpeed(int amount)
+    {
+        moveSpeed += amount;
 
+    }
 
 }
