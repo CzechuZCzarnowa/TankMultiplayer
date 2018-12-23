@@ -12,15 +12,12 @@ namespace Prototype.NetworkLobby
         public RectTransform lobbyServerList;
         public RectTransform lobbyPanel;
 
-        public InputField ipInput;
         public InputField matchNameInput;
 
         public void OnEnable()
         {
-            lobbyManager.topPanel.ToggleVisibility(true);
+            //lobbyManager.topPanel.ToggleVisibility(true);
 
-            ipInput.onEndEdit.RemoveAllListeners();
-            ipInput.onEndEdit.AddListener(OnEndEditIP);
 
             matchNameInput.onEndEdit.RemoveAllListeners();
             matchNameInput.onEndEdit.AddListener(OnEndEditGameName);
@@ -35,13 +32,13 @@ namespace Prototype.NetworkLobby
         {
             lobbyManager.ChangeTo(lobbyPanel);
 
-            lobbyManager.networkAddress = ipInput.text;
+   
             lobbyManager.StartClient();
 
             lobbyManager.backDelegate = lobbyManager.StopClientClbk;
             lobbyManager.DisplayIsConnecting();
 
-            lobbyManager.SetServerInfo("Connecting...", lobbyManager.networkAddress);
+
         }
 
         public void OnClickDedicated()
@@ -51,7 +48,6 @@ namespace Prototype.NetworkLobby
 
             lobbyManager.backDelegate = lobbyManager.StopServerClbk;
 
-            lobbyManager.SetServerInfo("Dedicated Server", lobbyManager.networkAddress);
         }
 
         public void OnClickCreateMatchmakingGame()
@@ -68,7 +64,7 @@ namespace Prototype.NetworkLobby
             lobbyManager._isMatchmaking = true;
             lobbyManager.DisplayIsConnecting();
 
-            lobbyManager.SetServerInfo("Matchmaker Host", lobbyManager.matchHost);
+
         }
 
         public void OnClickOpenServerList()

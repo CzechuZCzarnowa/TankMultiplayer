@@ -12,6 +12,8 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private float spawnBonusTime = 3f;
     [SerializeField] private float timeRound = 119;
     public TextMeshProUGUI timer_text;
+    public TextMeshProUGUI timerCountdown_text;
+    public Canvas timerCountdown_Panel;
     public GameObject barrier;
     public GameObject[] bonus;
     public BonusColliderSpawn[] bonusSpawn;

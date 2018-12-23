@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigi: {fileID: 0}
-  moveSpeed: 2
+  moveSpeed: 4
 --- !u!114 &114088372440708502
 MonoBehaviour:
   m_ObjectHideFlags: 1
