@@ -6,7 +6,6 @@ using System.Collections;
 public class Player : NetworkBehaviour {
 
 
-
     public GameObject deathEffect;
     NetworkStartPosition[] spawnPoints;
     PlayerHealth playerHealth;
@@ -16,6 +15,7 @@ public class Player : NetworkBehaviour {
 
     private void Start()
     {
+ 
         playerControler = GetComponent<CharacterControler>();
         playerHealth = GetComponent<PlayerHealth>();
         orginalPosition = transform.position;

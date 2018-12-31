@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using Prototype.NetworkLobby;
+using Prototype.MyNetworkLobby;
 
-public class NamePlayerHook : LobbyHook
+public class NamePlayerHook : MyLobbyHook
 {
 
     public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager,
@@ -11,6 +11,7 @@ public class NamePlayerHook : LobbyHook
     {
         LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
         NamePlayer tank= gamePlayer.GetComponent<NamePlayer>();
-        tank.m_playerName = lobby.playerName;
+        tank.m_playerName = lobby.name;
+        
     }
 }

@@ -44,14 +44,10 @@ namespace Prototype.NetworkLobby
 
         public override void OnClientEnterLobby()
         {
+            
             base.OnClientEnterLobby();
 
-            if (LobbyManager.s_Singleton != null)
-            {
-                LobbyManager.s_Singleton.OnPlayersNumberModified(1);
-    
-    
-            }
+            if (LobbyManager.s_Singleton != null) LobbyManager.s_Singleton.OnPlayersNumberModified(1);
 
             LobbyPlayerList._instance.AddPlayer(this);
             LobbyPlayerList._instance.DisplayDirectServerWarning(isServer && LobbyManager.s_Singleton.matchMaker == null);

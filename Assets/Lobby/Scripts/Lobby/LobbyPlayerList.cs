@@ -44,7 +44,7 @@ namespace Prototype.NetworkLobby
                 return;
 
             _players.Add(player);
-
+            
             player.transform.SetParent(playerListContentTransform, false);
             addButtonRow.transform.SetAsLastSibling();
 

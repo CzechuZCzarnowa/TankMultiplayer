@@ -8,12 +8,8 @@ public class HostGame : MonoBehaviour
     private uint roomSize = 4;
     private string roomName;
     private NetworkManager networkManager;
- 
-    //NetworkMatch matchMaker;
-    //private void Awake()
-    //{
-    //    matchMaker = gameObject.AddComponent<NetworkMatch>();
-    //}
+    
+
     public void SetRoomName(string name)
     {
         roomName = name;

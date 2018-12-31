@@ -7,10 +7,10 @@ using UnityEngine.Networking;
 public class CharacterControler :NetworkBehaviour
 {
     
+    
+
     private GunRotationJoystick Rjoystick;
     private VirtualJoystick Mjoystick;
-
-
     private float torqueForce = -200f;
     private float driftFactorSticky = 0.9f;
     private float driftFactorSlippy = 1f;
@@ -22,7 +22,8 @@ public class CharacterControler :NetworkBehaviour
     private float CameraOffset = -10f;
     private PlayerHealth playerHealth;
     [SerializeField] private float moveSpeed=2f;
-
+    [SerializeField] private ParticleSystem lewySilnik;
+    [SerializeField] private ParticleSystem prawySilnik;
 
     private void Start()
     {
@@ -34,6 +35,7 @@ public class CharacterControler :NetworkBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         Mjoystick = GameObject.Find("MoveJoystick").GetComponent<VirtualJoystick>();
         Rjoystick = GameObject.Find("RotationJoystick").GetComponent<GunRotationJoystick>();
+
         rigi = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main.transform;
         miniCamera = GameObject.Find("MiniMapCamera").GetComponent<Transform>();
@@ -79,9 +81,19 @@ public class CharacterControler :NetworkBehaviour
         }
         if(dir.x != 0 && dir.y !=0)
         {
+            lewySilnik.Emit(1);
+            prawySilnik.Emit(1);
+
         float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, -angle);
         }
+        else
+        {
+            lewySilnik.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            prawySilnik.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        }
+
 
         return dir;
     }
