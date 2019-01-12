@@ -2677,7 +2677,6 @@ GameObject:
   - component: {fileID: 1721571578}
   - component: {fileID: 1721571582}
   - component: {fileID: 1721571581}
-  - component: {fileID: 1721571583}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -2882,17 +2881,6 @@ MonoBehaviour:
   startGameButton: {fileID: 601365965}
   countdownText: {fileID: 1006674587}
   prematchCountdown: 5
---- !u!114 &1721571583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1721571576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f14f674d72346304aa1910f90f00d97a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1738807921
 GameObject:
   m_ObjectHideFlags: 0
