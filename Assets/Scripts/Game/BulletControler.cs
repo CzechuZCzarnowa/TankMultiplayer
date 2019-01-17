@@ -42,7 +42,7 @@ public class BulletControler : NetworkBehaviour
         rigi.velocity = Vector2.zero;
         boxCollider.enabled = false;
         rigi.Sleep();
-        exlodeEffect.Stop();
+        
         if(exlodeEffect !=null)
         {
             exlodeEffect.transform.parent = null;
@@ -62,17 +62,25 @@ public class BulletControler : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D colInfo)
     {
+
+
+        if (exlodeEffect != null)
+        {
+            exlodeEffect.transform.parent = null;
+            exlodeEffect.Play();
+        }
         if (!isServer)
             return;
-
+       
         PlayerHealth playerHealth = colInfo.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(damage, playerShoot);
             Destruct();
+
         }
-    
+       
     }
 
-
+    
 }

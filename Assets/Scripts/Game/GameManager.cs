@@ -252,13 +252,14 @@ public class GameManager : NetworkBehaviour
         }
     IEnumerator ChangeScene()
     {
+        yield return new WaitForSeconds(2f);
         var lobby = Object.FindObjectOfType<Prototype.MyNetworkLobby.MyLobby>();
         float fTime = 3f;
         if(!NetworkServer.active)
         {
             yield return new WaitForSeconds(fTime);
             Debug.Log("StopClient");
-            Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopClient();
+           
             Object.Destroy(lobby.gameObject);
 
         }
@@ -266,7 +267,7 @@ public class GameManager : NetworkBehaviour
         {
             while (Network.connections.Length > 0)
                 yield return null;
-
+            Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopClient();
             Debug.Log("StopHost");
             Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopHost();
             NetworkManager.Shutdown();
