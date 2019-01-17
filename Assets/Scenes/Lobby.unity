@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 197340991}
   - component: {fileID: 197340990}
   m_Layer: 0
-  m_Name: Placeholder
+  m_Name: PlaceholderName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1093,7 +1093,7 @@ GameObject:
   - component: {fileID: 601365966}
   - component: {fileID: 601365965}
   m_Layer: 0
-  m_Name: Button
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1601,15 +1601,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.047058824}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: d8b09a64058d5fb4d8cea579e30dbf78, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2423,6 +2423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85a8fcca201e6e468017197a2dadc35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeHolderNIck: {fileID: 197340990}
   namePlayer: 
   anim: {fileID: 1157226624}
   _lobbyplayer: {fileID: 0}
@@ -2678,7 +2679,7 @@ GameObject:
   - component: {fileID: 1721571582}
   - component: {fileID: 1721571581}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: LobbyUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2881,6 +2882,9 @@ MonoBehaviour:
   startGameButton: {fileID: 601365965}
   countdownText: {fileID: 1006674587}
   prematchCountdown: 5
+  placeHolder: {fileID: 1934089896}
+  _lobbyPlayerList: {fileID: 342893696}
+  _currentMatchID: 0
 --- !u!1 &1738807921
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,13 +2,14 @@
 
 public class ShootButton : NetworkBehaviour {
 
-    public PlayerShooting Player;
+    public PlayerShooting pS;
 
-    public void TestSpawn()
+    public void Shot()
     {
-        if (Player.GetComponent<PlayerHealth>().isDead)
+        if (pS.GetComponent<PlayerHealth>().isDead)
             return;
-        var playerNetIdentity = Player.gameObject.GetComponent<NetworkIdentity>();  
-        Player.GetComponent<PlayerShooting>().CmdShootBullet(playerNetIdentity.netId);
+        var playerNetIdentity = pS.gameObject.GetComponent<NetworkIdentity>();  
+        pS.GetComponent<PlayerShooting>().CmdShootBullet(playerNetIdentity.netId);
+       
     }
 }

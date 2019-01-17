@@ -8,11 +8,12 @@ public class BulletControler : NetworkBehaviour
     private Rigidbody2D rigi;
     private BoxCollider2D boxCollider;
     private int damage;
-    private float lifetime = 2f;
+    private float lifetime = 0.7f;
     public string nameP;
     public Weapon currentWeapon;
     public PlayerShooting playerShoot;
-    
+    public ParticleSystem exlodeEffect;
+    public ParticleSystem fireEffect;
     void Start()
     {      
         currentWeapon = playerShoot.currentWeapon[playerShoot.ActualWeapon()];
@@ -26,7 +27,13 @@ public class BulletControler : NetworkBehaviour
 
     IEnumerator SelfDestruct()
     {
+        if (exlodeEffect != null)
+        {
+            fireEffect.transform.parent = null;
+            fireEffect.Play();
+        }
         yield return new WaitForSeconds(lifetime);
+        
         Destruct();
     }
 
@@ -35,6 +42,12 @@ public class BulletControler : NetworkBehaviour
         rigi.velocity = Vector2.zero;
         boxCollider.enabled = false;
         rigi.Sleep();
+        exlodeEffect.Stop();
+        if(exlodeEffect !=null)
+        {
+            exlodeEffect.transform.parent = null;
+            exlodeEffect.Play();
+        }
         BulletDestroy();
     }
 

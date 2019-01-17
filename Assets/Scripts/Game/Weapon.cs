@@ -6,5 +6,6 @@ public class Weapon : ScriptableObject
     public GameObject Bulletprefab;
     public float speed;
     public int Damage = 10;
+    public float timeReload = 2f;
 
 }

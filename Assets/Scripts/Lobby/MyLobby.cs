@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
+using UnityEngine.Networking.Types;
 using TMPro;
-using System.Collections;
+
+using UnityEngine.SceneManagement;
 
 namespace Prototype.MyNetworkLobby
 {
@@ -25,22 +27,32 @@ namespace Prototype.MyNetworkLobby
         [SerializeField] Button startGameButton;
         public Text countdownText;
         public float prematchCountdown = 5.0f;
-
+        public TextMeshProUGUI placeHolder;
         protected MyLobbyHook _lobbyHooks;
+        public LobbyPlayerList _lobbyPlayerList;
+        public ulong _currentMatchID;
 
         private void Awake()
         {
-            s_Singleton = this;
+            Debug.Log("awake");
+            if (s_Singleton == null)
+            {
+                s_Singleton = this;
+                NetworkManager.singleton = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-
 
         // Use this for initialization
         void Start()
         {
 
+
             _lobbyHooks = GetComponent<Prototype.MyNetworkLobby.MyLobbyHook>();
-            MMStart();
-            MMListMatches();
+      
             DontDestroyOnLoad(gameObject);
         }
 
@@ -59,34 +71,10 @@ namespace Prototype.MyNetworkLobby
             this.StartMatchMaker();
         }
 
-        public void MMListMatches()
-        {
-            matchMaker.ListMatches(0, 20, "", true, 0, 0, OnMatchList);
-        }
-
-        public override void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matchList)
-        {
-            base.OnMatchList(success, extendedInfo, matchList);
-
-            if (!success)
-            {
-                Debug.Log("list failed" + extendedInfo);
-
-            }
-            else
-            {
-                if (matchList.Count > 0)
-                {
-                    Debug.Log("Successfully matches list");
-
-                }
-                else
-                    MMCreateMatch();
-            }
-        }
 
         public void MMJoinMatch(MatchInfoSnapshot firstMatch)
         {
+            
             this.matchMaker.JoinMatch(firstMatch.networkId, "", "", "", 0, 0, OnMatchJoined);
 
         }
@@ -103,11 +91,23 @@ namespace Prototype.MyNetworkLobby
             if (roomName != "" && roomName != null)
             {
                 GameObject.Find("MenuGame").GetComponent<Animator>().SetBool("start", true);
-                Debug.Log("Creating Room: " + roomName + "with room for" + roomSize + " players");
+                
                 matchMaker.CreateMatch(roomName, roomSize, true, "", "", "", 0, 0, OnMatchCreate);
+            
 
 
             }
+            else
+            {
+                placeHolder.text = "Wprowadz nazwe";
+
+            }
+        }
+
+        public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+        {
+            base.OnMatchCreate(success, extendedInfo, matchInfo);
+            _currentMatchID = (System.UInt64)matchInfo.networkId;
         }
         public override void OnLobbyServerPlayersReady()
         {
@@ -139,47 +139,20 @@ namespace Prototype.MyNetworkLobby
         }
         public void GameReady()
         {
-            //StartCoroutine("ServerCountdownCoroutine", prematchCountdown);
+            
             ServerChangeScene(playScene);
         }
 
 
-        public IEnumerator ServerCountdownCoroutine(float time)
+
+
+        public override void OnServerDisconnect(NetworkConnection conn)
         {
-            float remainingTime = prematchCountdown;
-            int floorTime = Mathf.FloorToInt(remainingTime);
-
-
-            while (remainingTime > 0)
-            {
-                yield return null;
-
-                remainingTime -= Time.deltaTime;
-                int newFloorTime = Mathf.FloorToInt(remainingTime);
-
-                if (newFloorTime != floorTime)
-                {//to avoid flooding the network of message, we only send a notice to client when the number of plain seconds change.
-                    floorTime = newFloorTime;
-
-                    for (int i = 0; i < lobbySlots.Length; ++i)
-                    {
-                        if (lobbySlots[i] != null)
-                        {//there is maxPlayer slots, so some could be == null, need to test it before accessing!
-                            Debug.Log("BUG" + lobbySlots[i]);
-                            LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
-                            p.RpcUpdateCountdown(floorTime);
-                        }
-                    }
-                }
-            }
-
-
-
-
-            ServerChangeScene(playScene);
-
+            base.OnServerDisconnect(conn);
+            StopHost();
+            _lobbyPlayerList.Remove();
+            StopClient();
         }
-
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
         {
             //This hook allows you to apply state data from the lobby-player to the game-player
@@ -192,24 +165,29 @@ namespace Prototype.MyNetworkLobby
         }
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
         {
-            //for (int i = 0; i < lobbySlots.Length; ++i)
-            //{
-            //    if (lobbySlots[i] != null)
-            //    {//there is maxPlayer slots, so some could be == null, need to test it before accessing!
-            //        lobbySlots[i].GetComponent<LobbyPlayer>().RpcDiactivePanel();
-            //        //LobbyPlayer p = lobbySlots[i] as LobbyPlayer;
-            //        //p.RpcDiactivePanel();
-            //    }
-            //}
-            PanelDiactive();
+            if (SceneManager.GetSceneAt(0).name != lobbyScene)
+            {
+
+                PanelStatus(false);
+            }
+            else
+            {
+                PanelStatus(true);
+            }
+    
+            
+
+               
         }
-        public void PanelDiactive()
+        public void PanelStatus(bool status)
         {
             for (int i = 0; i < active.Length; i++)
             {
-                active[i].SetActive(false);
+                active[i].SetActive(status);
             }
 
         }
     }
+    
+   
 }

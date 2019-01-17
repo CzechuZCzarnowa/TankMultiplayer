@@ -4,10 +4,10 @@ namespace Prototype.MyNetworkLobby
 {
     public class StartGame : MonoBehaviour
     {
-
+        public TextMeshProUGUI placeHolderNIck;
         public string namePlayer;
         [SerializeField]
-        Animator anim;
+        public Animator anim;
         public LobbyPlayer _lobbyplayer;
         public void TypeName(string name)
         {
@@ -16,15 +16,15 @@ namespace Prototype.MyNetworkLobby
 
         public void StartAnim()
         {
-            if (namePlayer != null)
-            {
-                if (anim == null)
-                {
-                    anim = GameObject.Find("MenuGame").GetComponent<Animator>();
-                }
+            if (namePlayer != "")
+            { 
 
                 anim.SetBool("join", true);
                 _lobbyplayer.CmdNameChanged(namePlayer);
+            }
+            else
+            {
+                placeHolderNIck.text = "Wprowadz nick";
             }
 
         }

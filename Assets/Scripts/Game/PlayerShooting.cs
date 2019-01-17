@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerShooting : NetworkBehaviour {
 
@@ -8,7 +9,8 @@ public class PlayerShooting : NetworkBehaviour {
     public Weapon[] currentWeapon;
     public GameObject canvas;
     public Rigidbody2D bulletPrefab;
-    
+    private bool canShoot = true;
+    public Button shotButton;
    [SyncVar] private int currentWeaponIndex = 0;
     private void Start()
     {
@@ -21,13 +23,17 @@ public class PlayerShooting : NetworkBehaviour {
         {
             return;
         }
-        GetComponentInChildren<ShootButton>().Player = this;
+        GetComponentInChildren<ShootButton>().pS = this;
     }
 
     [Command]
     public void CmdShootBullet(NetworkInstanceId id)
     {
         
+        if (!canShoot)
+            return;
+
+
         Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation) as Rigidbody2D;
 
         if (rbody != null)
@@ -43,7 +49,7 @@ public class PlayerShooting : NetworkBehaviour {
 
             }
         }
-
+        StartCoroutine(ReloadGun());
     }
 
     [ClientRpc]
@@ -66,6 +72,16 @@ public class PlayerShooting : NetworkBehaviour {
     public int ActualWeapon()
     {
         return currentWeaponIndex;
+    }
+
+    IEnumerator ReloadGun()
+    {
+        canShoot = false;
+        shotButton.interactable = false;
+      
+        yield return new WaitForSeconds(currentWeapon[currentWeaponIndex].timeReload);
+        shotButton.interactable = true;
+        canShoot = true;
     }
     
 }

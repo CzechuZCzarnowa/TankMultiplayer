@@ -40,18 +40,20 @@ public class Player : NetworkBehaviour {
         spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
 
     }
-    public void Die()
+    public void Die(string nameLastAttacker)
     {
         if (isLocalPlayer)
         {
-            Debug.Log("EEE");
-            GameManager.Instance.timerCountdown_Panel.gameObject.SetActive(true);
+            
+            GameManager.Instance.panelInfo.gameObject.SetActive(true);
+            GameManager.Instance.panelInfoText.text = "JESTES MARTWY ";
             GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             GetComponent<PlayerHealth>().isDead = true;
-            
+
         }
+           
         //StartCoroutine(RespawnCountdown(CountDownTime));
-        GameManager.Instance.EndGame();
+        
     }
 
 
@@ -76,7 +78,7 @@ public class Player : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            GameManager.Instance.timerCountdown_Panel.gameObject.SetActive(false);
+            GameManager.Instance.panelInfo.gameObject.SetActive(false);
         }
 
         PlayerSpawnCollider oldSpawn = GetNearestSpawnPoint();

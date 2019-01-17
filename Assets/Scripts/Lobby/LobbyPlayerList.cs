@@ -29,7 +29,18 @@ namespace Prototype.MyNetworkLobby
 
 
         }
-
+        public void Remove()
+        {
+            foreach (LobbyPlayer l in _players)
+            {
+                l.RemovePlayer();
+            }
+        }
+        public void RemovePlayer(LobbyPlayer player)
+        {
+            _players.Remove(player);
+           
+        }
 
     }
 }

@@ -73,7 +73,7 @@ namespace Prototype.MyNetworkLobby
         [ClientRpc]
         public void RpcDiactivePanel()
         {
-            MyLobby.s_Singleton.PanelDiactive();
+            MyLobby.s_Singleton.PanelStatus(false);
         }
         [ClientRpc]
         public void RpcUpdateCountdown(int countdown)
@@ -81,26 +81,7 @@ namespace Prototype.MyNetworkLobby
             MyLobby.s_Singleton.countdownText.text = countdown.ToString();
 
         }
-        public override void OnClientReady(bool readyState)
-        {
-            if (readyState)
-            {
 
-
-
-
-
-            }
-            else
-            {
-
-
-
-
-
-            }
-
-        }
         public void OnNameChanged(string str)
         {
             CmdNameChanged(str);
@@ -117,6 +98,9 @@ namespace Prototype.MyNetworkLobby
             name = _name;
             nameText.text = name;
         }
-
+        public void OnDestroy()
+        {
+            LobbyPlayerList._lobbyPlayerList.RemovePlayer(this);
+        }
     }
 }

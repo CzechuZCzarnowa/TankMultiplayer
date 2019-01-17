@@ -216,7 +216,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1796507216948570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1011257, y: -3.1, z: 0}
+  m_LocalPosition: {x: 1333.0149, y: -692.1294, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4867849776471396}
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec54e16ffa93424fb3a08cd029ae925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  pS: {fileID: 0}
 --- !u!114 &114074690835093556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -496,6 +496,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bd032ec0199e0784bb8e529ef8f4c395, type: 2}
   canvas: {fileID: 1310392962858962}
   bulletPrefab: {fileID: 0}
+  shotButton: {fileID: 114536236111682944}
 --- !u!114 &114083603486229450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -665,7 +666,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114042153565580414}
-        m_MethodName: TestSpawn
+        m_MethodName: Shot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

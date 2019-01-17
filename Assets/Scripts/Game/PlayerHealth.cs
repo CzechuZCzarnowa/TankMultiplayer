@@ -29,8 +29,10 @@ public class PlayerHealth : NetworkBehaviour {
         health += amount;
 
     }
+    string lastAttackerName;
     public void TakeDamage(int value, PlayerShooting ps = null)
     {
+        
         if (!isServer)
             return;
 
@@ -46,14 +48,15 @@ public class PlayerHealth : NetworkBehaviour {
         {
             if(lastAttacker != null)
             {
-                
+                lastAttackerName = lastAttacker.GetComponent<NamePlayer>().m_playerName.ToString();
                 lastAttacker.IncrementWeaponIndex();
                 lastAttacker = null;
             }
-            isDead = true;
+    
             GameManager.Instance.UpdateScoreboard();
-            RpcDied();
-            
+            RpcDied(lastAttackerName);
+            GameManager.Instance.EndGame(lastAttackerName);
+
         }
     }
 
@@ -63,11 +66,11 @@ public class PlayerHealth : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void RpcDied()
+    public void RpcDied(string name)
     {
         SetState(false);
        
-        gameObject.SendMessage("Die");
+        gameObject.SendMessage("Die",name);
     }
 
     void SetState(bool state)

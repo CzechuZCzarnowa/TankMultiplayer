@@ -15,3 +15,4 @@ MonoBehaviour:
     type: 2}
   speed: 10
   Damage: 10
+  timeReload: 0.5
