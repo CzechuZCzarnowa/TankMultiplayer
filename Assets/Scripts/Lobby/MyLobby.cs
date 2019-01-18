@@ -34,7 +34,7 @@ namespace Prototype.MyNetworkLobby
 
         private void Awake()
         {
-            Debug.Log("awake");
+          
             if (s_Singleton == null)
             {
                 s_Singleton = this;
@@ -104,6 +104,7 @@ namespace Prototype.MyNetworkLobby
             }
         }
 
+
         public override void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
         {
             base.OnMatchCreate(success, extendedInfo, matchInfo);
@@ -153,32 +154,23 @@ namespace Prototype.MyNetworkLobby
             _lobbyPlayerList.Remove();
             StopClient();
         }
+
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
         {
-            //This hook allows you to apply state data from the lobby-player to the game-player
-            //just subclass "LobbyHook" and add it to the lobby object.
 
             if (_lobbyHooks)
                 _lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
             return true;
         }
+
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
         {
-            if (SceneManager.GetSceneAt(0).name != lobbyScene)
-            {
 
                 PanelStatus(false);
-            }
-            else
-            {
-                PanelStatus(true);
-            }
-    
-            
-
-               
+      
         }
+
         public void PanelStatus(bool status)
         {
             for (int i = 0; i < active.Length; i++)

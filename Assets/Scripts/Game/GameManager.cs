@@ -10,9 +10,8 @@ public class GameManager : NetworkBehaviour
     {
 
         [SyncVar]
-
         private int maxPlayers = 4;
-        private GameObject LBM;
+      
         private bool isGame = false;
         [SyncVar] private float timer;
         [SerializeField] private float spawnBonusTime = 3f;
@@ -26,31 +25,13 @@ public class GameManager : NetworkBehaviour
         public GameObject[] bonus;
         public BonusColliderSpawn[] bonusSpawn;
 
-        public List<Player> allPlayers;
-        public List<TextMeshProUGUI> nameLabelText;
-        public static GameManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = GameObject.FindObjectOfType<GameManager>();
-                    if (instance == null)
-                    {
-                        instance = new GameObject().AddComponent<GameManager>();
-                    }
+        public static GameManager Instance;
 
-                }
-                return instance;
-            }
-        }
-
-        private static GameManager instance;
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
@@ -62,9 +43,9 @@ public class GameManager : NetworkBehaviour
         {
             isGame = true;
             timer = timeRound;
-            LBM = GameObject.Find("LobbyUI");
-            UpdateScoreboard();
+               
             StartCoroutine("RandomBonus", spawnBonusTime);
+
         }
 
         private void Update()
@@ -115,7 +96,7 @@ public class GameManager : NetworkBehaviour
                 if (bonusSpawn.Length > 0)
                 {
 
-                    float timeOut = Time.time + 2f;
+                   
                     for (int i = 0; i < bonusSpawn.Length; i++)
                     {
                         BonusColliderSpawn bonus = bonusSpawn[Random.Range(0, bonusSpawn.Length)].GetComponent<BonusColliderSpawn>();
@@ -177,42 +158,9 @@ public class GameManager : NetworkBehaviour
         {
             if (playerCount < maxPlayers)
             {
-                allPlayers.Add(player);
-
                 playerCount++;
             }
-            UpdateScoreboard();
-        }
-        [ClientRpc]
-        void RpcUpdateScoreboard(string[] playerNames)
-        {
-            for (int i = 0; i < playerCount; i++)
-            {
-                if (playerNames[i] != null)
-                {
-                    nameLabelText[i].text = playerNames[i];
-                }
-
-
-            }
-
-        }
-
-
-        public void UpdateScoreboard()
-        {
-
-            if (isServer)
-            {
-                string[] names = new string[playerCount];
-                for (int i = 0; i < playerCount; i++)
-                {
-                    names[i] = allPlayers[i].GetComponent<NamePlayer>().namePlayer.ToString();
-
-                }
-
-                RpcUpdateScoreboard(names);
-            }
+          
         }
 
         public void EndGame(string nameLastAttacker)
@@ -220,14 +168,12 @@ public class GameManager : NetworkBehaviour
             playerCount--;
             if (playerCount > 1)
             {
-                Debug.Log("jeszcze są zywi");
+              
             }
             else
             {
 
                 StartCoroutine(EndGameMassage(nameLastAttacker));
-
-           // ChangeScene();
 
             }
         }
@@ -237,8 +183,8 @@ public class GameManager : NetworkBehaviour
             yield return new WaitForSeconds(3f);
             RpcEndPanel(nameLastAttacker);
 
-
         }
+
         [ClientRpc]
         private void RpcEndPanel(string nameLastAttacker)
         {
@@ -258,8 +204,6 @@ public class GameManager : NetworkBehaviour
         if(!NetworkServer.active)
         {
             yield return new WaitForSeconds(fTime);
-            Debug.Log("StopClient");
-           
             Object.Destroy(lobby.gameObject);
 
         }
@@ -267,11 +211,10 @@ public class GameManager : NetworkBehaviour
         {
             while (Network.connections.Length > 0)
                 yield return null;
-            Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopClient();
-            Debug.Log("StopHost");
+            
+            NetworkServer.DisconnectAll();        
             Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopHost();
             NetworkManager.Shutdown();
-            Debug.Log("Destroy");
             Object.Destroy(lobby.gameObject);
         }
 

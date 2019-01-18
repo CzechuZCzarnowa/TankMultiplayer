@@ -8286,12 +8286,6 @@ MonoBehaviour:
   bonusSpawn:
   - {fileID: 721563246}
   - {fileID: 870374203}
-  allPlayers: []
-  nameLabelText:
-  - {fileID: 827630123}
-  - {fileID: 191516427}
-  - {fileID: 1447134605}
-  - {fileID: 242159873}
 --- !u!114 &1799183268
 MonoBehaviour:
   m_ObjectHideFlags: 0

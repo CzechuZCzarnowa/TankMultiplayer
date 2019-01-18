@@ -9,23 +9,18 @@ namespace Prototype.MyNetworkLobby
     {
 
         [SyncVar(hook = "OnMyName")]
-        public string name = "";
+        public string playerName = "";
         [SerializeField] Text nameText;
 
 
         [HideInInspector]
         public int _playerNumber = 0;
 
-
-
         public override void OnClientEnterLobby()
         {
             base.OnClientEnterLobby();
 
-
-
             LobbyPlayerList._lobbyPlayerList.AddPlayer(this);
-
 
             if (isServer)
             {
@@ -38,43 +33,42 @@ namespace Prototype.MyNetworkLobby
                 SetupOtherPlayer();
             }
 
-            OnMyName(name);
+            OnMyName(playerName);
         }
 
         public override void OnStartAuthority()
         {
             base.OnStartAuthority();
             SendReadyToBeginMessage();
-
-
-
             SetupLocalPlayer();
         }
+
         void SetupOtherPlayer()
         {
-            if (name == "")
+
+            if (playerName == "")
                 CmdNameChanged("host" + (LobbyPlayerList._lobbyPlayerList.playerListContentTransform.childCount - 1));
 
         }
 
         void SetupLocalPlayer()
         {
-            if (name == "")
+
+            if (playerName == "")
                 CmdNameChanged("Player" + (LobbyPlayerList._lobbyPlayerList.playerListContentTransform.childCount - 1));
-
-
 
         }
         public void OnReadyClicked()
-        {
-            Debug.Log("ready");
+        {         
             SendReadyToBeginMessage();
         }
+
         [ClientRpc]
         public void RpcDiactivePanel()
         {
             MyLobby.s_Singleton.PanelStatus(false);
         }
+
         [ClientRpc]
         public void RpcUpdateCountdown(int countdown)
         {
@@ -86,18 +80,20 @@ namespace Prototype.MyNetworkLobby
         {
             CmdNameChanged(str);
         }
+
         public void OnMyName(string _name)
         {
-            name = _name;
-            nameText.text = name;
+            playerName = _name;
+            nameText.text = playerName;
         }
 
         [Command]
         public void CmdNameChanged(string _name)
         {
-            name = _name;
-            nameText.text = name;
+            playerName = _name;
+            nameText.text = playerName;
         }
+
         public void OnDestroy()
         {
             LobbyPlayerList._lobbyPlayerList.RemovePlayer(this);

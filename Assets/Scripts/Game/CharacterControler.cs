@@ -18,7 +18,6 @@ public class CharacterControler :NetworkBehaviour
     public Rigidbody2D rigi;
     private Transform mainCamera;
     private Transform miniCamera;
-    private Vector3 moveVector;
     private float CameraOffset = -10f;
     private PlayerHealth playerHealth;
     [SerializeField] private float moveSpeed=2f;
@@ -48,7 +47,6 @@ public class CharacterControler :NetworkBehaviour
         {
             return;
         }
-        moveVector = MJoystickInput();
         MoveCharacter();
         RJoystickInput();
         MoveCamera();

@@ -10,13 +10,11 @@ public class Player : NetworkBehaviour {
     NetworkStartPosition[] spawnPoints;
     PlayerHealth playerHealth;
     Vector3 orginalPosition;
-    CharacterControler playerControler;
-    [SerializeField] float CountDownTime=10;
 
     private void Start()
     {
  
-        playerControler = GetComponent<CharacterControler>();
+   
         playerHealth = GetComponent<PlayerHealth>();
         orginalPosition = transform.position;
         if(isServer)
@@ -51,29 +49,10 @@ public class Player : NetworkBehaviour {
             GetComponent<PlayerHealth>().isDead = true;
 
         }
-           
-        //StartCoroutine(RespawnCountdown(CountDownTime));
+
         
     }
 
-
-
-    //public IEnumerator RespawnCountdown(float time)
-    //{
-    //    if (isLocalPlayer)
-    //    {
-    //        GameManager.Instance.timerCountdown_Panel.gameObject.SetActive(true);
-
-    //    }
-    //    float currCountdownValue = time;
-    //    while (currCountdownValue > 0)
-    //    {
-    //        GameManager.Instance.timerCountdown_text.text = currCountdownValue.ToString();
-    //        yield return new WaitForSeconds(1.0f);
-    //        currCountdownValue--;
-    //    }
-    //    StartCoroutine(RespawnRoutine());
-    //}
     public IEnumerator RespawnRoutine()
     {
         if (isLocalPlayer)

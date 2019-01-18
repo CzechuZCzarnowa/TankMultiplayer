@@ -53,7 +53,6 @@ public class PlayerHealth : NetworkBehaviour {
                 lastAttacker = null;
             }
     
-            GameManager.Instance.UpdateScoreboard();
             RpcDied(lastAttackerName);
             GameManager.Instance.EndGame(lastAttackerName);
 
