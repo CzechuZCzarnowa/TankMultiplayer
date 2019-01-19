@@ -5666,7 +5666,7 @@ GameObject:
   - component: {fileID: 721563246}
   m_Layer: 0
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6185,7 +6185,7 @@ GameObject:
   - component: {fileID: 829582672}
   m_Layer: 0
   m_Name: GameObject (5)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6321,7 +6321,7 @@ GameObject:
   - component: {fileID: 870374203}
   m_Layer: 0
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6378,7 +6378,7 @@ GameObject:
   - component: {fileID: 890423179}
   m_Layer: 0
   m_Name: GameObject (3)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7159,7 +7159,7 @@ GameObject:
   - component: {fileID: 1041239650}
   m_Layer: 0
   m_Name: GameObject (2)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7527,7 +7527,7 @@ GameObject:
   - component: {fileID: 1307837382}
   m_Layer: 0
   m_Name: GameObject (4)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8003,7 +8003,7 @@ GameObject:
   - component: {fileID: 1660763807}
   m_Layer: 0
   m_Name: GameObject (6)
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8273,9 +8273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dbf9db8f09cfe42a5ad6e385168cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCount: 0
   spawnBonusTime: 25
   timeRound: 119
-  playerCount: 0
   timer_text: {fileID: 986824285}
   panelInfoText: {fileID: 828567877}
   panelInfo: {fileID: 1061829438}

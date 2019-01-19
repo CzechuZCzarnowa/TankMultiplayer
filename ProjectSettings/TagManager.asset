@@ -9,6 +9,7 @@ TagManager:
   - SpawnPoint
   - BonusHealth
   - BonusSpeed
+  - Spawn
   layers:
   - Default
   - TransparentFX

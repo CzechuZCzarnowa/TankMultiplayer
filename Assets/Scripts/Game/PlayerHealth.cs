@@ -52,7 +52,9 @@ public class PlayerHealth : NetworkBehaviour {
                 lastAttacker.IncrementWeaponIndex();
                 lastAttacker = null;
             }
-    
+            GameManager.Instance.PlayerCountChange(1);
+
+
             RpcDied(lastAttackerName);
             GameManager.Instance.EndGame(lastAttackerName);
 

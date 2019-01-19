@@ -34,7 +34,6 @@ public class CharacterControler :NetworkBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         Mjoystick = GameObject.Find("MoveJoystick").GetComponent<VirtualJoystick>();
         Rjoystick = GameObject.Find("RotationJoystick").GetComponent<GunRotationJoystick>();
-
         rigi = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main.transform;
         miniCamera = GameObject.Find("MiniMapCamera").GetComponent<Transform>();

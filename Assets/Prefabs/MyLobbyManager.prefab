@@ -178,9 +178,16 @@ MonoBehaviour:
   m_LobbyScene: Lobby
   m_PlayScene: SampleScene
   lobbySlots: []
-  playerName: 
   roomSize: 4
   nameInput: {fileID: 0}
+  _playerNumber: 0
+  active: []
+  startGameButton: {fileID: 0}
+  countdownText: {fileID: 0}
+  prematchCountdown: 5
+  placeHolder: {fileID: 0}
+  _lobbyPlayerList: {fileID: 0}
+  _currentMatchID: 0
 --- !u!114 &114864886194174770
 MonoBehaviour:
   m_ObjectHideFlags: 1

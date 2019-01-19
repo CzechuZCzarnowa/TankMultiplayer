@@ -64,7 +64,7 @@ public class BulletControler : NetworkBehaviour
     {
 
 
-        if (exlodeEffect != null)
+        if (exlodeEffect != null && !colInfo.CompareTag("SpawnPoint") && !colInfo.CompareTag("Spawn"))
         {
             exlodeEffect.transform.parent = null;
             exlodeEffect.Play();

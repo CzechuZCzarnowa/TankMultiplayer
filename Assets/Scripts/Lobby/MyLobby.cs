@@ -38,7 +38,8 @@ namespace Prototype.MyNetworkLobby
             if (s_Singleton == null)
             {
                 s_Singleton = this;
-                NetworkManager.singleton = this;
+                
+                
             }
             else
             {
@@ -49,7 +50,7 @@ namespace Prototype.MyNetworkLobby
         // Use this for initialization
         void Start()
         {
-
+            NetworkManager.singleton = this;
 
             _lobbyHooks = GetComponent<Prototype.MyNetworkLobby.MyLobbyHook>();
       
@@ -146,13 +147,22 @@ namespace Prototype.MyNetworkLobby
 
 
 
-
+        public override void OnClientDisconnect(NetworkConnection conn)
+        {
+            base.OnClientDisconnect(conn);
+            Debug.Log("StopClient");
+            StopClient();
+            NetworkManager.singleton.StopMatchMaker();
+            Destroy(this.gameObject);
+        }
         public override void OnServerDisconnect(NetworkConnection conn)
         {
             base.OnServerDisconnect(conn);
+            Debug.Log("StopHost");
             StopHost();
+            NetworkManager.singleton.StopMatchMaker();
             _lobbyPlayerList.Remove();
-            StopClient();
+            Destroy(this.gameObject);
         }
 
         public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer)
@@ -167,7 +177,14 @@ namespace Prototype.MyNetworkLobby
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
         {
 
+            if(SceneManager.GetSceneAt(0).name != lobbyScene)
+            {
                 PanelStatus(false);
+            }
+            else
+            {
+                PanelStatus(true);
+            }
       
         }
 

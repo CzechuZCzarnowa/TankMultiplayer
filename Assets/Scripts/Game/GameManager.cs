@@ -5,19 +5,20 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking.Types;
+using Prototype.NetworkLobby;
 
 public class GameManager : NetworkBehaviour
     {
 
         [SyncVar]
         private int maxPlayers = 4;
-      
+        [SyncVar(hook = "PlayerCountChange")] public int playerCount = 0;
         private bool isGame = false;
         [SyncVar] private float timer;
         [SerializeField] private float spawnBonusTime = 3f;
         [SerializeField] private float timeRound = 119;
 
-        public int playerCount = 0;
+      
         public TextMeshProUGUI timer_text;
         public TextMeshProUGUI panelInfoText;
         public Canvas panelInfo;
@@ -43,7 +44,7 @@ public class GameManager : NetworkBehaviour
         {
             isGame = true;
             timer = timeRound;
-               
+           
             StartCoroutine("RandomBonus", spawnBonusTime);
 
         }
@@ -154,21 +155,21 @@ public class GameManager : NetworkBehaviour
 
         }
 
-        public void AddPlayer(Player player)
+        public void AddPlayer()
         {
-            if (playerCount < maxPlayers)
-            {
-                playerCount++;
-            }
+          //  playerCount = NetworkClient.allClients.Count;
           
         }
-
+        public void PlayerCountChange(int index)
+        {
+        playerCount--;
+        }
         public void EndGame(string nameLastAttacker)
         {
-            playerCount--;
+            
             if (playerCount > 1)
             {
-              
+                RpcInformationAboutCountPlayers();
             }
             else
             {
@@ -182,42 +183,57 @@ public class GameManager : NetworkBehaviour
         {
             yield return new WaitForSeconds(3f);
             RpcEndPanel(nameLastAttacker);
-
+            yield return new WaitForSeconds(3f);
+            StartCoroutine(ChangeScene());
+        }
+        
+        
+        IEnumerator RpcInformationAboutCountPlayers()
+        {
+        RpcCountPlayersText("zostało " + playerCount + "graczy",true);
+        yield return new WaitForSeconds(3);
+        RpcCountPlayersText("", true);
         }
 
+        [ClientRpc]
+        private void RpcCountPlayersText(string text,bool active)
+        {
+        GameManager.Instance.panelInfo.gameObject.SetActive(active);
+        GameManager.Instance.panelInfoText.text = text;
+        }
         [ClientRpc]
         private void RpcEndPanel(string nameLastAttacker)
         {
             GameManager.Instance.panelInfo.gameObject.SetActive(true);
 
             GameManager.Instance.panelInfoText.text = "KONIEC GRY Wygral gracz " + nameLastAttacker;
-
-            StartCoroutine(ChangeScene());
+            
+            
 
             
         }
     IEnumerator ChangeScene()
     {
-        yield return new WaitForSeconds(2f);
-        var lobby = Object.FindObjectOfType<Prototype.MyNetworkLobby.MyLobby>();
-        float fTime = 3f;
-        if(!NetworkServer.active)
-        {
-            yield return new WaitForSeconds(fTime);
-            Object.Destroy(lobby.gameObject);
+        while (Network.connections.Length > 0)
+                yield return null;
 
+        Disconnect();
+    }
+
+    public void Disconnect()
+    {
+        Prototype.MyNetworkLobby.MyLobby netManager = NetworkManager.singleton as Prototype.MyNetworkLobby.MyLobby;
+        if (isServer)
+        {
+            netManager.StopHost();
+            Destroy(NetworkManager.singleton.gameObject);
         }
         else
         {
-            while (Network.connections.Length > 0)
-                yield return null;
-            
-            NetworkServer.DisconnectAll();        
-            Prototype.MyNetworkLobby.MyLobby.s_Singleton.StopHost();
-            NetworkManager.Shutdown();
-            Object.Destroy(lobby.gameObject);
+            NetworkClient.ShutdownAll();
+            netManager.StopClient();
+            Destroy(gameObject);
         }
-
     }
 
 

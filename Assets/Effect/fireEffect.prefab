@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4184454433698754}
   - component: {fileID: 198480453480896456}
   - component: {fileID: 199194855014487338}
+  - component: {fileID: 114812264218156236}
   m_Layer: 0
   m_Name: fireEffect
   m_TagString: Untagged
@@ -103,6 +104,38 @@ Transform:
   m_Father: {fileID: 4184454433698754}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 86.52901, y: 0, z: 0}
+--- !u!114 &114812264218156236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469167166728480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 99
+    i1: 162
+    i2: 229
+    i3: 34
+    i4: 229
+    i5: 22
+    i6: 75
+    i7: 228
+    i8: 187
+    i9: 125
+    i10: 37
+    i11: 20
+    i12: 181
+    i13: 190
+    i14: 165
+    i15: 106
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!198 &198480453480896456
 ParticleSystem:
   m_ObjectHideFlags: 1

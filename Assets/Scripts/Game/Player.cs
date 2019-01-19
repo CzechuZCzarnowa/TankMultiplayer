@@ -28,7 +28,7 @@ public class Player : NetworkBehaviour {
     {
         base.OnStartLocalPlayer();
          spawnPoints = GameObject.FindObjectsOfType<NetworkStartPosition>();
-        CmdSetupPlayer();
+
     }
 
 
@@ -123,10 +123,6 @@ public class Player : NetworkBehaviour {
        
         return orginalPosition;
     }
-    [Command]
-    void CmdSetupPlayer()
-    {
-        GameManager.Instance.AddPlayer(this);
-    }
+
 
 }
