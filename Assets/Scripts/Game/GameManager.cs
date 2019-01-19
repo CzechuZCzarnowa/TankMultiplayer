@@ -155,11 +155,7 @@ public class GameManager : NetworkBehaviour
 
         }
 
-        public void AddPlayer()
-        {
-          //  playerCount = NetworkClient.allClients.Count;
-          
-        }
+    
         public void PlayerCountChange(int index)
         {
         playerCount--;

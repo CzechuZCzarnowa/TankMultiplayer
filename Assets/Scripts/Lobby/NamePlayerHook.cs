@@ -12,6 +12,6 @@ public class NamePlayerHook : MyLobbyHook
         LobbyPlayer lobby = lobbyPlayer.GetComponent<LobbyPlayer>();
         NamePlayer tank= gamePlayer.GetComponent<NamePlayer>();
         tank.m_playerName = lobby.playerName;
-        GameManager.Instance.playerCount++;
+     
     }
 }

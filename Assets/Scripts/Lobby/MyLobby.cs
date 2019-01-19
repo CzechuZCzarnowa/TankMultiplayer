@@ -50,7 +50,7 @@ namespace Prototype.MyNetworkLobby
         // Use this for initialization
         void Start()
         {
-            NetworkManager.singleton = this;
+            //NetworkManager.singleton = this;
 
             _lobbyHooks = GetComponent<Prototype.MyNetworkLobby.MyLobbyHook>();
       

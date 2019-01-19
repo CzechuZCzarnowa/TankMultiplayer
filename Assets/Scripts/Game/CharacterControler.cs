@@ -29,8 +29,10 @@ public class CharacterControler :NetworkBehaviour
         if (!isLocalPlayer)
         {
             Destroy(this);
+
             return;
         }
+        
         playerHealth = GetComponent<PlayerHealth>();
         Mjoystick = GameObject.Find("MoveJoystick").GetComponent<VirtualJoystick>();
         Rjoystick = GameObject.Find("RotationJoystick").GetComponent<GunRotationJoystick>();
