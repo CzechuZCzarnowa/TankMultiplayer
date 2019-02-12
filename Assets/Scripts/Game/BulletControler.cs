@@ -12,8 +12,8 @@ public class BulletControler : NetworkBehaviour
     public string nameP;
     public Weapon currentWeapon;
     public PlayerShooting playerShoot;
-    public ParticleSystem exlodeEffect;
-    public ParticleSystem fireEffect;
+    public ParticleSystem exlodeEfect;
+    public ParticleSystem fireEfect;
     void Start()
     {      
         currentWeapon = playerShoot.currentWeapon[playerShoot.ActualWeapon()];
@@ -27,14 +27,19 @@ public class BulletControler : NetworkBehaviour
 
     IEnumerator SelfDestruct()
     {
-        if (exlodeEffect != null)
-        {
-            fireEffect.transform.parent = null;
-            fireEffect.Play();
-        }
+        Efect();
         yield return new WaitForSeconds(lifetime);
         
         Destruct();
+    }
+
+    private void Efect()
+    {
+        if (exlodeEfect != null)
+        {
+            fireEfect.transform.parent = null;
+            fireEfect.Play();
+        }
     }
 
     private void Destruct()
@@ -43,10 +48,10 @@ public class BulletControler : NetworkBehaviour
         boxCollider.enabled = false;
         rigi.Sleep();
         
-        if(exlodeEffect !=null)
+        if(exlodeEfect !=null)
         {
-            exlodeEffect.transform.parent = null;
-            exlodeEffect.Play();
+            exlodeEfect.transform.parent = null;
+            exlodeEfect.Play();
         }
         BulletDestroy();
     }
@@ -64,10 +69,10 @@ public class BulletControler : NetworkBehaviour
     {
 
 
-        if (exlodeEffect != null && !colInfo.CompareTag("SpawnPoint") && !colInfo.CompareTag("Spawn"))
+        if (exlodeEfect != null && !colInfo.CompareTag("SpawnPoint") && !colInfo.CompareTag("Spawn"))
         {
-            exlodeEffect.transform.parent = null;
-            exlodeEffect.Play();
+            exlodeEfect.transform.parent = null;
+            exlodeEfect.Play();
         }
         if (!isServer)
             return;

@@ -94,9 +94,6 @@ namespace Prototype.MyNetworkLobby
                 GameObject.Find("MenuGame").GetComponent<Animator>().SetBool("start", true);
                 
                 matchMaker.CreateMatch(roomName, roomSize, true, "", "", "", 0, 0, OnMatchCreate);
-            
-
-
             }
             else
             {

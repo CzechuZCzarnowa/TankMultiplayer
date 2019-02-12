@@ -32,8 +32,6 @@ public class PlayerShooting : NetworkBehaviour {
         
         if (!canShoot)
             return;
-
-
         Rigidbody2D rbody = Instantiate(bulletPrefab, firePosition.position, firePosition.rotation) as Rigidbody2D;
 
         if (rbody != null)
@@ -46,9 +44,9 @@ public class PlayerShooting : NetworkBehaviour {
             {
             var t = ClientScene.FindLocalObject(id);
             rbody.GetComponent<BulletControler>().playerShoot = t.GetComponent<PlayerShooting>();
-
             }
         }
+
         StartCoroutine(ReloadGun());
     }
 

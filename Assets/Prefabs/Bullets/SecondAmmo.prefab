@@ -290,8 +290,8 @@ MonoBehaviour:
   nameP: 
   currentWeapon: {fileID: 0}
   playerShoot: {fileID: 0}
-  exlodeEffect: {fileID: 198494335752251900}
-  fireEffect: {fileID: 198925538325947922}
+  exlodeEfect: {fileID: 198494335752251900}
+  fireEfect: {fileID: 198925538325947922}
 --- !u!114 &114206279689156782
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -90,21 +90,16 @@ public class GameManager : NetworkBehaviour
 
         private BonusColliderSpawn GetRandomSpawnVector()
         {
-
             if (bonusSpawn != null)
             {
-
                 if (bonusSpawn.Length > 0)
-                {
-
-                   
+                {                  
                     for (int i = 0; i < bonusSpawn.Length; i++)
                     {
-                        BonusColliderSpawn bonus = bonusSpawn[Random.Range(0, bonusSpawn.Length)].GetComponent<BonusColliderSpawn>();
-
+                        BonusColliderSpawn bonus = bonusSpawn[Random.Range(0, 
+                                                   bonusSpawn.Length)].GetComponent<BonusColliderSpawn>();
                         if (!bonus.isOccupied)
                             return bonus;
-
                     }
                     return null;
                 }
@@ -120,7 +115,7 @@ public class GameManager : NetworkBehaviour
             if (timer <= 0)
             {
                 timer = timeRound;
-                StartCoroutine(LocalLerp());
+                StartCoroutine(BarierMove());
 
 
             }
@@ -137,7 +132,7 @@ public class GameManager : NetworkBehaviour
             SpawnGO.transform.localScale = scale;
         }
 
-        private IEnumerator LocalLerp()
+        private IEnumerator BarierMove()
         {
             float progress = 0;
             Vector3 actualTransform = barrier.transform.localScale;
@@ -202,11 +197,7 @@ public class GameManager : NetworkBehaviour
         {
             GameManager.Instance.panelInfo.gameObject.SetActive(true);
 
-            GameManager.Instance.panelInfoText.text = "KONIEC GRY Wygral gracz " + nameLastAttacker;
-            
-            
-
-            
+            GameManager.Instance.panelInfoText.text = "KONIEC GRY Wygral gracz " + nameLastAttacker;   
         }
     IEnumerator ChangeScene()
     {
